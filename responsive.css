@@ -397,7 +397,6 @@
   .section-2-layout .text-right,
   .section-2-layout .text-left {
     text-align: center;
-    margin-bottom: 16px;
   }
 
   .wrap-content {
@@ -477,10 +476,12 @@
   .banner-description {
     display: none;
   }
-  .banner-slogan {
+  /* .banner-slogan {
     display: none !important;
+  } */
+  .section-m {
+    height: 100vh;
   }
-
   .banner-section {
     height: calc(100vh - 40px);
     display: flex;
@@ -503,7 +504,7 @@
 
   .text-32 {
     font-size: 16px;
-    line-height: 16px;
+    line-height: 24px;
   }
 
   .text-36 {
@@ -590,7 +591,11 @@
   }
 
   .section {
-    padding: 32px 0;
+    padding: 48px 0;
+  }
+
+  .section-break {
+    padding-bottom: 68px;
   }
 
   .group-service-group {
@@ -689,9 +694,39 @@
   }
   .sub-title-banner .mobile-s {
     display: block;
-    font-size: 48px;
+    font-size: 40px;
     line-height: 48px;
     letter-spacing: 0;
+  }
+
+  .outcome-service-title,
+  .outcome-subtitle {
+    margin-bottom: 36px;
+  }
+
+  .card-service {
+    flex-direction: column;
+    padding-bottom: 24px;
+  }
+  .card-service p {
+    text-align: center;
+  }
+
+  .section-2-layout-p {
+    font-size: 16px;
+    line-height: 24px;
+    margin-bottom: 36px;
+  }
+
+  .section-2-layout h2 {
+    margin-bottom: 36px;
+  }
+
+  .card-content {
+    flex: 0 0 calc(100% - 32px);
+  }
+  .wrap-content {
+    gap: 24px;
   }
 }
 
