@@ -487,7 +487,10 @@
     align-items: center;
   }
   .text-effect {
-    transform: translateY(-50%);
+    transform: translateY(-30%);
+  }
+  .img-effect-banner {
+    width: 50%;
   }
   .text-20 {
     font-size: 10px;
