@@ -361,7 +361,6 @@ footer.section {
  
 }
 
-/* Float animation: move up/down ~5% over 2s, looping infinitely */
 .image-circle {
   transform: translateY(0);
   will-change: transform;

@@ -1,270 +1,196 @@
-/*
-  Improved lazy loader
-  - Waits for banner image to load (with timeout) then loads images/backgrounds
-  - Supports concurrency (parallel downloads), small delays between batches
-  - Skips configured files on mobile (e.g. ./image/image.webp)
-  - Falls back to loading remaining assets on first user interaction
-*/
-(function(){
+(function () {
+
   const cfg = {
-    bannerSelector: '.img-effect-banner',
-    bannerTimeout: 500, // ms
-    concurrency: 2,
-    delayBetweenBatches: 100, // ms
-    mobileBreakpoint: 480, // px (skip image.webp on <=480)
-    // files to skip on mobile (substring match)
-    mobileSkip: ['/image/image.webp']
+    bannerSelector: ".img-effect-banner",
+    bannerTimeout: 500,
+    mobileBreakpoint: 480,
+    mobileSkip: ["/image/image.webp"],
+    ioRootMargin: "200px",
   };
 
-  function isMobile(){ return window.innerWidth <= cfg.mobileBreakpoint; }
+  const isMobile = () => window.innerWidth <= cfg.mobileBreakpoint;
 
-  // Feature-detect passive event listener support (used for scroll handlers)
-  let _supportsPassive = false;
-  try {
-    const opts = Object.defineProperty({}, 'passive', { get: function() { _supportsPassive = true; } });
-    window.addEventListener('__testPassive', null, opts);
-    window.removeEventListener('__testPassive', null, opts);
-  } catch(e) {}
-
-  // Safe addEvent helper: uses options when supported; polyfills `once` when options are not supported
-  function addEvent(el, type, handler, options) {
-    options = options || {};
-    const useCapture = !!options.capture;
-    const once = !!options.once;
-    const passive = !!options.passive;
-
-    if (_supportsPassive) {
-      el.addEventListener(type, handler, options);
-      return;
-    }
-
-    if (once) {
-      const wrapped = function(e) {
-        try { handler.call(this, e); } finally { el.removeEventListener(type, wrapped, useCapture); }
-      };
-      el.addEventListener(type, wrapped, useCapture);
-      return;
-    }
-
-    el.addEventListener(type, handler, useCapture);
-  }
-
-  function waitForBannerLoaded(timeout = cfg.bannerTimeout){
+  function waitForBanner(timeout = cfg.bannerTimeout) {
     const banner = document.querySelector(cfg.bannerSelector);
-    return new Promise(resolve=>{
-      if(!banner) return resolve();
-      if(banner.complete) return resolve();
+    return new Promise((res) => {
+      if (!banner) return res();
+      if (banner.complete) return res();
       let done = false;
-      const finish = ()=>{ if(done) return; done = true; resolve(); };
-      addEvent(banner, 'load', finish, {once:true});
-      addEvent(banner, 'error', finish, {once:true});
+      const finish = () => {
+        if (done) return;
+        done = true;
+        res();
+      };
+      banner.addEventListener("load", finish, { once: true });
+      banner.addEventListener("error", finish, { once: true });
       setTimeout(finish, timeout);
     });
   }
 
-  function preloadImage(url){
-    return new Promise(resolve=>{
-      const img = new Image();
-      // attach handlers before setting src to avoid race with cached images
-      img.onload = img.onerror = ()=>resolve();
-      img.src = url;
+  function supportsRIC() {
+    return typeof window.requestIdleCallback === "function";
+  }
+
+  // Safely set src/srcset on <img> and <source> elements, attaching handlers before assignment
+  function assignImage(el, { src, srcset }) {
+    return new Promise((resolve) => {
+      const onDone = () => resolve();
+      if (el.tagName === "IMG") {
+        const tmp = new Image();
+        if (srcset) tmp.srcset = srcset;
+        if (src) tmp.src = src;
+        tmp.onload = tmp.onerror = () => {
+          if (srcset) el.srcset = srcset;
+          if (src) el.src = src;
+          el.removeAttribute("data-src");
+          el.removeAttribute("data-srcset");
+          el.removeAttribute("data-src-mobile");
+          el.removeAttribute("data-srcset-mobile");
+          resolve();
+        };
+      } else if (el.tagName === "SOURCE") {
+        if (srcset) el.srcset = srcset;
+        el.removeAttribute("data-srcset");
+        el.removeAttribute("data-srcset-mobile");
+        resolve();
+      } else {
+        resolve();
+      }
     });
   }
 
-  function createTasks(){
-    const imgs = Array.from(document.querySelectorAll('img[data-src], img[data-lazy]'));
-    const bgs = Array.from(document.querySelectorAll('[data-bg]'));
-    const mobile = isMobile(); // Determine if the device is mobile
+  function loadPicture(pictureEl) {
+    if (!pictureEl) return Promise.resolve();
+    const sources = Array.from(pictureEl.querySelectorAll("source"));
+    const img = pictureEl.querySelector("img");
+    const mobile = isMobile();
 
     const tasks = [];
-
-    imgs.forEach(img => {
-      const src = img.dataset.src || img.dataset.lazy;
-      if(!src) return;
-      if(mobile && cfg.mobileSkip.some(s => src.includes(s))) return; // skip on mobile
-      tasks.push(() => preloadImage(src).then(()=>{
-        img.src = src;
-        img.removeAttribute('data-src');
-        img.removeAttribute('data-lazy');
-      }));
+    sources.forEach((s) => {
+      const srcset = mobile ? s.dataset.srcsetMobile || s.dataset.srcset : s.dataset.srcset || s.dataset.srcsetMobile;
+      if (srcset) tasks.push(() => assignImage(s, { srcset }));
     });
 
-    bgs.forEach(el => {
-      const src = el.dataset.bg;
-      if(!src) return;
-      if(mobile && cfg.mobileSkip.some(s => src.includes(s))) return;
-      tasks.push(() => preloadImage(src).then(()=>{
-        el.style.backgroundImage = `url("${src}")`;
-        el.removeAttribute('data-bg');
-      }));
-    });
+    if (img) {
+      const srcset = mobile ? img.dataset.srcsetMobile || img.dataset.srcset : img.dataset.srcset || img.dataset.srcsetMobile;
+      const src = mobile ? img.dataset.srcMobile || img.dataset.src : img.dataset.src || img.dataset.srcMobile;
+      if (srcset || src) tasks.push(() => assignImage(img, { src, srcset }));
+    }
 
-    return tasks;
+    return tasks.reduce((p, t) => p.then(t), Promise.resolve());
   }
 
-  function runPool(tasks){
-    return new Promise(resolve => {
-      let inFlight = 0;
-      function next(){
-        if(tasks.length === 0 && inFlight === 0) return resolve();
-        while(inFlight < cfg.concurrency && tasks.length){
-          const task = tasks.shift();
-          inFlight++;
-          task().finally(()=>{
-            inFlight--;
-            // small delay before scheduling next batch to avoid spikes
-            setTimeout(next, cfg.delayBetweenBatches);
-          });
+  function loadBackground(el) {
+    if (!el || !el.dataset) return Promise.resolve();
+    const mobile = isMobile();
+    const src = mobile ? el.dataset.bgMobile || el.dataset.bg : el.dataset.bg || el.dataset.bgMobile;
+    if (!src) return Promise.resolve();
+    if (mobile && cfg.mobileSkip.some((s) => src.includes(s))) return Promise.resolve();
+    return new Promise((res) => {
+      const img = new Image();
+      img.onload = img.onerror = () => {
+        el.style.backgroundImage = `url("${src}")`;
+        el.removeAttribute("data-bg");
+        el.removeAttribute("data-bg-mobile");
+        res();
+      };
+      img.src = src;
+    });
+  }
+
+  function elementLoadTask(el) {
+    if (!el) return Promise.resolve();
+    if (el.tagName === "PICTURE") return loadPicture(el);
+    if (el.tagName === "IMG") return loadPicture(el.parentElement && el.parentElement.tagName === "PICTURE" ? el.parentElement : null).then(() => assignImage(el, {
+      src: isMobile() ? el.dataset.srcMobile || el.dataset.src : el.dataset.src || el.dataset.srcMobile,
+      srcset: isMobile() ? el.dataset.srcsetMobile || el.dataset.srcset : el.dataset.srcset || el.dataset.srcsetMobile,
+    }));
+    return loadBackground(el);
+  }
+
+  function queryLazyElements() {
+    const pictures = Array.from(document.querySelectorAll("picture")).filter(p => p.querySelector("source[data-srcset], source[data-srcset-mobile], img[data-src], img[data-src-mobile], img[data-srcset], img[data-srcset-mobile]"));
+    const imgs = Array.from(document.querySelectorAll("img[data-src], img[data-src-mobile], img[data-srcset], img[data-srcset-mobile]"));
+    const bgs = Array.from(document.querySelectorAll("[data-bg], [data-bg-mobile]"));
+    const pictureImgs = new Set(pictures.map(p => p.querySelector("img")).filter(Boolean));
+    const imgsFiltered = imgs.filter(i => !pictureImgs.has(i));
+    return { pictures, imgs: imgsFiltered, bgs };
+  }
+
+  function observeAndLoad() {
+    const { pictures, imgs, bgs } = queryLazyElements();
+    const mobile = isMobile();
+
+    if (mobile && window.IntersectionObserver) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          io.unobserve(el);
+          elementLoadTask(el).catch(()=>{});
+        });
+      }, { root: null, rootMargin: cfg.ioRootMargin, threshold: 0 });
+
+      pictures.forEach(p => io.observe(p));
+      imgs.forEach(i => io.observe(i));
+      bgs.forEach(b => io.observe(b));
+
+      const inView = [...pictures, ...imgs, ...bgs].filter(el => {
+        const r = el.getBoundingClientRect();
+        return r.bottom >= -200 && r.top <= (window.innerHeight || document.documentElement.clientHeight) + 200;
+      });
+      inView.forEach(el => { try { elementLoadTask(el); } catch(e){} });
+    } else {
+      const tasks = [...pictures.map(p => () => elementLoadTask(p)), ...imgs.map(i => () => elementLoadTask(i)), ...bgs.map(b => () => elementLoadTask(b))];
+      const runner = () => tasks.reduce((p, t) => p.then(t), Promise.resolve());
+      if (supportsRIC()) requestIdleCallback(() => runner()); else runner();
+    }
+  }
+
+  function onFirstInteraction(fn) {
+    const once = () => { fn(); window.removeEventListener('scroll', once); window.removeEventListener('touchstart', once); window.removeEventListener('mousemove', once); window.removeEventListener('keydown', once); };
+    window.addEventListener('scroll', once, { passive: true });
+    window.addEventListener('touchstart', once, { passive: true });
+    window.addEventListener('mousemove', once, { passive: true });
+    window.addEventListener('keydown', once, { passive: true });
+  }
+
+  async function init() {
+    // Wait for the banner LCP image to finish (or timeout)
+    await waitForBanner();
+
+    // Ensure banner is assigned/visible immediately if it uses data-* attributes
+    try {
+      const bannerEl = document.querySelector(cfg.bannerSelector);
+      if (bannerEl) {
+        if (bannerEl.tagName === 'IMG') {
+          const src = isMobile() ? (bannerEl.dataset.srcMobile || bannerEl.dataset.src) : (bannerEl.dataset.src || bannerEl.src);
+          const srcset = isMobile() ? (bannerEl.dataset.srcsetMobile || bannerEl.dataset.srcset) : (bannerEl.dataset.srcset || null);
+          if (src || srcset) await assignImage(bannerEl, { src, srcset });
+        } else if (bannerEl.tagName === 'PICTURE') {
+          await loadPicture(bannerEl);
         }
       }
-      next();
-    });
-  }
+    } catch (e) {
+      // swallow banner assignment errors to avoid console noise
+    }
 
-  function onFirstInteraction(loadFn){
-    const handler = ()=>{ loadFn();
-      window.removeEventListener('scroll', handler);
-      window.removeEventListener('touchstart', handler);
-      window.removeEventListener('mousemove', handler);
-      window.removeEventListener('keydown', handler);
-    };
-    addEvent(window, 'scroll', handler, {passive:true, once:true});
-    addEvent(window, 'touchstart', handler, {once:true});
-    addEvent(window, 'mousemove', handler, {once:true});
-    addEvent(window, 'keydown', handler, {once:true});
-  }
+    // Delay loading other images by ~5s to prioritize LCP and primary content
+    const delayMs = 500;
+    const startLoads = () => { try { observeAndLoad(); } catch (e) {} };
 
-  async function init(){
-    // Build task list but don't start yet
-    const tasks = createTasks();
-
-    // Wait for banner (or timeout) so hero is ready before loading other heavy assets
-    await waitForBannerLoaded();
-
-    // If we're on mobile, we prefer IntersectionObserver: only load images when near viewport
-    if(isMobile()){
-      // Observe img[data-src] and elements with [data-bg]
-      const obsOptions = {root: null, rootMargin: '200px', threshold: 0};
-      const io = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if(!entry.isIntersecting) return;
-          const el = entry.target;
-          if(el.tagName === 'IMG'){
-            const src = el.dataset.src || el.dataset.lazy;
-            if(!src) { observer.unobserve(el); return; }
-            if(cfg.mobileSkip.some(s => src.includes(s))){ observer.unobserve(el); return; }
-            preloadImage(src).then(()=>{ el.src = src; el.removeAttribute('data-src'); el.removeAttribute('data-lazy'); observer.unobserve(el); });
-          } else {
-            const src = el.dataset.bg;
-            if(!src) { observer.unobserve(el); return; }
-            if(cfg.mobileSkip.some(s => src.includes(s))){ observer.unobserve(el); return; }
-            preloadImage(src).then(()=>{ el.style.backgroundImage = `url("${src}")`; el.removeAttribute('data-bg'); observer.unobserve(el); });
-          }
-        });
-      }, obsOptions);
-
-      const imgsToObserve = Array.from(document.querySelectorAll('img[data-src], img[data-lazy]'));
-      imgsToObserve.forEach(img => {
-        const src = img.dataset.src || img.dataset.lazy || '';
-        if(cfg.mobileSkip.some(s => src.includes(s))) return; // don't observe skipped files
-        io.observe(img);
-      });
-
-      const bgsToObserve = Array.from(document.querySelectorAll('[data-bg]'));
-      bgsToObserve.forEach(el => {
-        const src = el.dataset.bg || '';
-        if(cfg.mobileSkip.some(s => src.includes(s))) return;
-        io.observe(el);
-      });
-
-      // Immediately check visibility (handles reload with restored scroll position)
-      const rootMarginPx = 200; // matches rootMargin above
-      function isVisibleWithMargin(el){
-        const r = el.getBoundingClientRect();
-        const winH = window.innerHeight || document.documentElement.clientHeight;
-        const winW = window.innerWidth || document.documentElement.clientWidth;
-        return (r.bottom >= -rootMarginPx && r.top <= winH + rootMarginPx && r.right >= 0 && r.left <= winW);
-      }
-
-      // Run a quick pass to load any elements already in view (fixes reload-in-middle issue)
-      setTimeout(()=>{
-        imgsToObserve.forEach(img => {
-          try{
-            if(isVisibleWithMargin(img)){
-              const src = img.dataset.src || img.dataset.lazy;
-              if(src){
-                preloadImage(src).then(()=>{ img.src = src; img.removeAttribute('data-src'); img.removeAttribute('data-lazy'); io.unobserve(img); });
-              }
-            }
-          }catch(e){}
-        });
-        bgsToObserve.forEach(el => {
-          try{
-            if(isVisibleWithMargin(el)){
-              const src = el.dataset.bg;
-              if(src){
-                preloadImage(src).then(()=>{ el.style.backgroundImage = `url("${src}")`; el.removeAttribute('data-bg'); io.unobserve(el); });
-              }
-            }
-          }catch(e){}
-        });
-      }, 50);
-
-      // Also re-check when the page is shown (back/refresh with scroll restoration)
-      window.addEventListener('pageshow', ()=>{
-        imgsToObserve.forEach(img => {
-          try{
-            if(isVisibleWithMargin(img)){
-              const src = img.dataset.src || img.dataset.lazy;
-              if(src){
-                preloadImage(src).then(()=>{ img.src = src; img.removeAttribute('data-src'); img.removeAttribute('data-lazy'); io.unobserve(img); });
-              }
-            }
-          }catch(e){}
-        });
-        bgsToObserve.forEach(el => {
-          try{
-            if(isVisibleWithMargin(el)){
-              const src = el.dataset.bg;
-              if(src){
-                preloadImage(src).then(()=>{ el.style.backgroundImage = `url("${src}")`; el.removeAttribute('data-bg'); io.unobserve(el); });
-              }
-            }
-          }catch(e){}
-        });
-      });
-
-      // Also ensure remaining tasks (for non-mobile-safe items) get loaded on first interaction
-      const remaining = document.querySelectorAll('img[data-src], img[data-lazy], [data-bg]');
-      if(remaining.length){
-        onFirstInteraction(async ()=>{
-          const remTasks = createTasks();
-          if(remTasks.length) await runPool(remTasks);
-        });
-      }
+    if (supportsRIC()) {
+      setTimeout(() => requestIdleCallback(startLoads), delayMs);
     } else {
-      // Desktop/tablet: load tasks after banner with concurrency
-      await runPool(tasks);
-
-      // If there are still any remaining data-src/bg attributes (e.g. skipped on mobile), set up interaction loader
-      const remaining = document.querySelectorAll('img[data-src], img[data-lazy], [data-bg]');
-      if(remaining.length){
-        onFirstInteraction(async ()=>{
-          const remTasks = createTasks();
-          if(remTasks.length) await runPool(remTasks);
-        });
-      }
+      setTimeout(startLoads, delayMs);
     }
 
-    // If there are still any remaining data-src/bg attributes (e.g. skipped on mobile), set up interaction loader
-    const remaining = document.querySelectorAll('img[data-src], img[data-lazy], [data-bg]');
-    if(remaining.length){
-      onFirstInteraction(async ()=>{
-        const remTasks = createTasks();
-        if(remTasks.length) await runPool(remTasks);
-      });
-    }
+    // Fallback: load remaining assets on first user interaction
+    onFirstInteraction(() => { try { observeAndLoad(); } catch (e) {} });
+
+    // Handle back/forward cache restores
+    window.addEventListener('pageshow', (ev) => { if (ev.persisted) { try { observeAndLoad(); } catch (e) {} } });
   }
 
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

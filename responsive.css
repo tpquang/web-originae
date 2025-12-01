@@ -476,9 +476,6 @@
   .banner-description {
     display: none;
   }
-  /* .banner-slogan {
-    display: none !important;
-  } */
   .section-m {
     min-height: 100vh;
   }
@@ -489,9 +486,6 @@
   }
   .text-effect {
     transform: translateY(-30%);
-  }
-  .img-effect-banner {
-    width: 50%;
   }
   .text-20 {
     font-size: 10px;
@@ -650,7 +644,7 @@
     transform: translateX(-50%);
   }
   .img-effect-banner {
-    width: 38%;
+    width: 50%;
     top: 50%;
     left: 50%;
   }
