@@ -8,7 +8,7 @@
 (function(){
   const cfg = {
     bannerSelector: '.img-effect-banner',
-    bannerTimeout: 5000, // ms
+    bannerTimeout: 500, // ms
     concurrency: 2,
     delayBetweenBatches: 100, // ms
     mobileBreakpoint: 480, // px (skip image.webp on <=480)
