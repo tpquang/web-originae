@@ -18,6 +18,37 @@
 
   function isMobile(){ return window.innerWidth <= cfg.mobileBreakpoint; }
 
+  // Feature-detect passive event listener support (used for scroll handlers)
+  let _supportsPassive = false;
+  try {
+    const opts = Object.defineProperty({}, 'passive', { get: function() { _supportsPassive = true; } });
+    window.addEventListener('__testPassive', null, opts);
+    window.removeEventListener('__testPassive', null, opts);
+  } catch(e) {}
+
+  // Safe addEvent helper: uses options when supported; polyfills `once` when options are not supported
+  function addEvent(el, type, handler, options) {
+    options = options || {};
+    const useCapture = !!options.capture;
+    const once = !!options.once;
+    const passive = !!options.passive;
+
+    if (_supportsPassive) {
+      el.addEventListener(type, handler, options);
+      return;
+    }
+
+    if (once) {
+      const wrapped = function(e) {
+        try { handler.call(this, e); } finally { el.removeEventListener(type, wrapped, useCapture); }
+      };
+      el.addEventListener(type, wrapped, useCapture);
+      return;
+    }
+
+    el.addEventListener(type, handler, useCapture);
+  }
+
   function waitForBannerLoaded(timeout = cfg.bannerTimeout){
     const banner = document.querySelector(cfg.bannerSelector);
     return new Promise(resolve=>{
@@ -25,8 +56,8 @@
       if(banner.complete) return resolve();
       let done = false;
       const finish = ()=>{ if(done) return; done = true; resolve(); };
-      banner.addEventListener('load', finish, {once:true});
-      banner.addEventListener('error', finish, {once:true});
+      addEvent(banner, 'load', finish, {once:true});
+      addEvent(banner, 'error', finish, {once:true});
       setTimeout(finish, timeout);
     });
   }
@@ -34,8 +65,9 @@
   function preloadImage(url){
     return new Promise(resolve=>{
       const img = new Image();
-      img.src = url;
+      // attach handlers before setting src to avoid race with cached images
       img.onload = img.onerror = ()=>resolve();
+      img.src = url;
     });
   }
 
@@ -96,10 +128,10 @@
       window.removeEventListener('mousemove', handler);
       window.removeEventListener('keydown', handler);
     };
-    window.addEventListener('scroll', handler, {passive:true, once:true});
-    window.addEventListener('touchstart', handler, {once:true});
-    window.addEventListener('mousemove', handler, {once:true});
-    window.addEventListener('keydown', handler, {once:true});
+    addEvent(window, 'scroll', handler, {passive:true, once:true});
+    addEvent(window, 'touchstart', handler, {once:true});
+    addEvent(window, 'mousemove', handler, {once:true});
+    addEvent(window, 'keydown', handler, {once:true});
   }
 
   async function init(){
