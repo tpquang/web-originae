@@ -9,6 +9,10 @@ hr {
   -webkit-text-stroke: 2px rgb(255, 255, 255);
 }
 
+.count-started {
+  min-width: 60px;
+}
+
 .img-effect-banner {
   width: 30%;
   top: 50%;
