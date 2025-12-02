@@ -3,15 +3,18 @@
     width: 38%;
     left: 16%;
   }
+
   .card-content {
     min-height: 136px;
     padding: 24px 48px;
   }
+
   .img-effect-banner {
     width: 20%;
     top: 50%;
     left: 21%;
   }
+
   .top.line-white-vertical::before {
     height: 25%;
   }
@@ -21,6 +24,7 @@
   .top.line-white-vertical::before {
     height: 32%;
   }
+
   .img-effect-service {
     rotate: 100deg;
     width: 58%;
@@ -28,10 +32,12 @@
     transform: scaleX(-1);
     top: 56%;
   }
+
   .card-content {
     min-height: 136px;
     padding: 24px 8px;
   }
+
   .img-effect-banner {
     width: 30%;
     top: 50%;
@@ -52,6 +58,7 @@
   .text-32 {
     font-size: 24px;
     line-height: 24px;
+    letter-spacing: -1px;
   }
 
   .text-36 {
@@ -60,7 +67,7 @@
   }
 
   .text-48 {
-    font-size: 36px;
+    font-size: 44px;
   }
 
   .text-108 {
@@ -71,6 +78,26 @@
     font-size: 108px;
     line-height: 120px;
     letter-spacing: -4px;
+  }
+
+  .section-2-layout .text-188 {
+    font-size: 130px;
+    line-height: 120px;
+    letter-spacing: -4px;
+  }
+
+  .section-2-layout .text-32 {
+    letter-spacing: -1px;
+    font-size: 22px;
+  }
+
+  .section-2-layout .text-124 {
+    font-size: 110px;
+  }
+
+  .card-content .text-24 {
+    letter-spacing: -1px;
+    font-size: 18px;
   }
 
   .text-132 {
@@ -86,7 +113,27 @@
   }
 
   .text-220 {
+    letter-spacing: -8px;
     font-size: 160px;
+  }
+
+  .our-team:nth-child(3) .badge {
+    width: 260px;
+    padding: 4px 40px;
+    left: 75%;
+  }
+
+  .sectiton-getstarted .text-188 {
+    font-size: 108px;
+    line-height: 88px;
+    letter-spacing: -4px;
+  }
+
+  .btn-started {
+    border-radius: 68px;
+    height: 80px;
+    width: 80%;
+    margin: 24px 0;
   }
 
   .text-160 {
@@ -96,30 +143,61 @@
   .text-400 {
     font-size: 240px;
   }
+
+  .section-break .text-188 {
+    font-size: 140px;
+  }
+
+  .section-service-model .text-132 {
+    line-height: 80px;
+  }
+
   .letter-sm {
     letter-spacing: -8px;
   }
+
   .btn-banner {
     width: 240px;
     height: 68px;
   }
+
   .img-effect-banner {
     width: 20%;
     top: 50%;
     left: 26%;
   }
+
   .group-service-padding {
     padding: 0 16px;
   }
+
   .img-effect-service {
     top: 62%;
-    width: 40%;
+    width: 50%;
+    left: 10%;
   }
+
   .our-service-item .image-group img {
     width: 240px;
   }
+
   .top.line-white-vertical::before {
     height: 32%;
+  }
+
+  .sub-title-banner p {
+    line-height: 96px;
+    letter-spacing: -6px;
+  }
+
+  .our-service-item .text-36 {
+    font-size: 20px;
+  }
+
+  .our-service-item .text-32 {
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: -1px;
   }
 }
 
@@ -156,6 +234,7 @@
     line-height: 64px;
     letter-spacing: -4px;
   }
+
   .text-132 {
     font-size: 92px;
     line-height: 92px;
@@ -165,6 +244,7 @@
   .text-160 {
     font-size: 98px;
   }
+
   .text-188 {
     font-size: 100px;
     line-height: 120px;
@@ -178,29 +258,36 @@
   .text-400 {
     font-size: 180px;
   }
+
   .btn-header {
     width: 180px;
     height: 48px;
   }
+
   .btn-banner {
     width: 180px;
     height: 48px;
   }
+
   .img-effect-banner {
     width: 20%;
     top: 50%;
     left: 22%;
   }
+
   .img-effect-service {
     top: 69%;
   }
+
   .card-content {
     min-height: 92px;
     padding: 16px 8px;
   }
+
   .our-service-item .image-group img {
     width: 180px;
   }
+
   .mb-88 {
     margin-bottom: 64px;
   }
@@ -208,20 +295,25 @@
   .our-service-group {
     margin-top: 88px;
   }
+
   .our-service-model-group {
     margin-bottom: 64px;
   }
+
   .our-team-group {
     gap: 24px;
     margin-bottom: 32px;
   }
+
   .section {
     padding: 48px 0;
   }
+
   .our-team:nth-child(1),
   .our-team:nth-child(2) {
     flex: 0 0 calc(25% - 12px);
   }
+
   .our-team:nth-child(3) {
     flex: 0 0 calc(50% - 28px);
   }
@@ -231,17 +323,21 @@
     padding: 4px 8px;
     border-radius: 32px;
   }
+
   .text-36.badge {
     font-size: 16px;
     line-height: 16px;
   }
+
   .our-team:nth-child(1) .badge {
     bottom: 8px;
   }
+
   .btn-header.text-36 {
     font-size: 16px;
     line-height: 16px;
   }
+
   header {
     height: 68px;
   }
@@ -249,6 +345,7 @@
   footer.section {
     padding-bottom: 88px;
   }
+
   .container {
     padding-left: 48px;
     padding-right: 48px;
@@ -260,14 +357,14 @@
     padding-left: 32px;
     padding-right: 32px;
   }
+
   .wrap-content {
     padding: 0 20px;
     column-gap: 20px;
     row-gap: 12px;
   }
 
-  .card-content {
-  }
+  .card-content {}
 
   /* .gap-wrap {
     gap: 20px;
@@ -310,6 +407,7 @@
     line-height: 56px;
     letter-spacing: 0px;
   }
+
   .text-132 {
     font-size: 72px;
     line-height: 72px;
@@ -320,6 +418,7 @@
     font-size: 76px;
     line-height: 76px;
   }
+
   .text-188 {
     font-size: 76px;
     line-height: 76px;
@@ -333,6 +432,7 @@
   .text-400 {
     font-size: 200px;
   }
+
   .sub-title-banner p {
     letter-spacing: -4px;
     line-height: 68px;
@@ -342,11 +442,13 @@
     width: 160px;
     height: 36px;
   }
+
   .img-effect-banner {
     width: 32%;
     top: 50%;
     left: 40%;
   }
+
   .section {
     padding: 48px 0;
   }
@@ -358,6 +460,7 @@
   .mobile {
     display: block;
   }
+
   .desktop {
     display: none;
   }
@@ -371,16 +474,20 @@
   .outcome-service-title {
     margin-bottom: 24px;
   }
+
   .mb-48 {
     margin-bottom: 24px;
   }
+
   .card-service {
     gap: 16px;
     padding: 16px;
   }
+
   .count {
     margin: 0 8px 0 0;
   }
+
   .card-service-group {
     padding: 0 8px;
   }
@@ -402,6 +509,7 @@
   .wrap-content {
     justify-content: center;
   }
+
   .our-service-model-group {
     margin-bottom: 24px;
     flex-direction: column;
@@ -417,30 +525,37 @@
   .our-service-model-group .mb-88 {
     margin-bottom: 24px;
   }
+
   .group-service-group {
     gap: 16px;
     margin-top: 36px;
     margin-left: 10%;
   }
+
   .our-service-group {
     margin-top: 36px;
   }
+
   .our-team-group {
     flex-wrap: wrap;
     gap: 0;
     column-gap: 8px;
     row-gap: 8px;
   }
+
   .our-team:nth-child(1),
   .our-team:nth-child(2) {
     flex: 0 0 calc(50% - 8px);
   }
+
   .our-team:nth-child(3) {
     flex: 0 0 calc(100%);
   }
+
   .our-team:nth-child(1) .badge {
     bottom: 16px;
   }
+
   .btn-header.text-36 {
     font-size: 12px;
     line-height: 16px;
@@ -462,6 +577,7 @@
   .started-title-mobile {
     margin-bottom: 24px;
   }
+
   .card-started-group {
     flex: 0 0 100%;
     gap: 16px;
@@ -473,20 +589,25 @@
   .banner-cta {
     display: none;
   }
+
   .banner-description {
     display: none;
   }
+
   .section-m {
     min-height: 100vh;
   }
+
   .banner-section {
     height: calc(100vh - 40px);
     display: flex;
     align-items: center;
   }
+
   .text-effect {
     transform: translateY(-30%);
   }
+
   .text-20 {
     font-size: 10px;
   }
@@ -519,6 +640,7 @@
     line-height: 40px;
     letter-spacing: 0px;
   }
+
   .text-132 {
     font-size: 56px;
     line-height: 56px;
@@ -528,6 +650,7 @@
     font-size: 68px;
     line-height: 68px;
   }
+
   .text-188 {
     font-size: 72px;
     line-height: 72px;
@@ -550,6 +673,7 @@
   .break-text {
     text-align: center;
   }
+
   .break-cta {
     margin: auto;
     margin-bottom: 36px;
@@ -565,6 +689,7 @@
     line-height: 32px;
     text-align: center;
   }
+
   .outcome-service-title span {
     display: none;
   }
@@ -576,9 +701,11 @@
   .outcome-subtitle {
     text-align: center;
   }
+
   .wrap-content {
     padding: 0;
   }
+
   .our-team:nth-child(1) .badge {
     bottom: unset;
     top: 8px;
@@ -618,6 +745,7 @@
   .footer-logo .text-108 {
     font-size: 72px;
   }
+
   .footer-logo {
     left: 50%;
     transform: translateX(-50%);
@@ -643,6 +771,7 @@
     left: 50%;
     transform: translateX(-50%);
   }
+
   .img-effect-banner {
     width: 50%;
     top: 50%;
@@ -656,10 +785,12 @@
   .sub-title-banner {
     position: unset;
   }
+
   .banner .btn-banner {
     margin: auto;
     margin-bottom: 24px;
   }
+
   .banner .text-108 {
     font-size: 48px;
     line-height: 48px;
@@ -686,6 +817,7 @@
   .mobile-s-d {
     display: none;
   }
+
   .sub-title-banner .mobile-s {
     display: block;
     font-size: 40px;
@@ -702,6 +834,7 @@
     flex-direction: column;
     padding-bottom: 24px;
   }
+
   .card-service p {
     text-align: center;
   }
@@ -719,6 +852,7 @@
   .card-content {
     flex: 0 0 calc(100% - 32px);
   }
+
   .wrap-content {
     gap: 24px;
   }
@@ -732,6 +866,7 @@
   .wrap-content {
     flex-direction: column;
   }
+
   .our-service-item .image-group img {
     width: 120px;
   }

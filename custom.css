@@ -1,3 +1,9 @@
+hr {
+  border: none;
+  border-top: 2.5px solid var(--primary-800);
+  margin: 0;
+}
+
 .text-effect-banner {
   color: rgba(0, 0, 0, 0);
   -webkit-text-stroke: 2px rgb(255, 255, 255);
@@ -36,7 +42,7 @@
 
 .btn-header {
   width: 240px;
-  height: 60px;
+  height: 52px;
 }
 
 .btn-banner {
@@ -126,7 +132,7 @@
 .card-content {
   border-radius: 24px;
   padding: 24px 8px;
-  flex: 0 0 calc(50% - 32px);
+  flex: 0 0 calc(50% - 16px);
   ;
   text-align: center;
   display: flex;
@@ -181,6 +187,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 100%;
 }
 
 .group-service {
@@ -340,8 +347,8 @@
 }
 
 .btn-break {
-  width: 320px;
-  height: 76px;
+  width: 240px;
+  height: 60px;
 }
 
 .linkedin-link {
@@ -357,9 +364,7 @@ footer.section {
   display: none;
 }
 
-.image-circle {
- 
-}
+.image-circle {}
 
 .image-circle {
   transform: translateY(0);
@@ -371,6 +376,7 @@ footer.section {
   from {
     transform: translateY(-2%);
   }
+
   to {
     transform: translateY(2%);
   }
