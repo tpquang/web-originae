@@ -317,18 +317,23 @@ header {
   height: auto;
 }
 
-.group-link-footer {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.group-1-footer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 .mobile {
   display: none;
+}
+
+/* Smooth scrolling for in-page anchors and offset for fixed header */
+html {
+  scroll-behavior: smooth;
+}
+
+:target {
+
+}
+
+.mr-16 {
+  margin-right: 16px;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
 }
