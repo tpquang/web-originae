@@ -280,6 +280,10 @@ a {
   padding: 68px 0;
 }
 
+.mb-8 {
+  margin-bottom: 8px;
+}
+
 .bg-black {
   background-color: black;
 }
@@ -313,7 +317,7 @@ header {
 }
 
 .img-linked {
-  width: 40px;
+  width: 20px;
   height: auto;
 }
 

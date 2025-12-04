@@ -18,17 +18,37 @@
   .top.line-white-vertical::before {
     height: 25%;
   }
+
+  .btn-break {
+    width: 320px;
+    height: 68px;
+  }
 }
 
 @media (max-width: 1920px) {
+  .text-36 {
+    font-size: 32px;
+    line-height: 32px;
+  }
+
+  .text-32 {
+    font-size: 28px;
+    line-height: 30px;
+  }
+
+  .btn-break {
+    width: 320px;
+    height: 68px;
+  }
+
   .top.line-white-vertical::before {
     height: 32%;
   }
 
   .img-effect-service {
     rotate: 100deg;
-    width: 58%;
-    left: 16%;
+    width: 52%;
+    left: 24%;
     transform: scaleX(-1);
     top: 56%;
   }
@@ -42,6 +62,11 @@
     width: 30%;
     top: 50%;
     left: 32%;
+  }
+
+  .text-32 {
+    font-size: 22px;
+    line-height: 30px;
   }
 }
 
@@ -58,7 +83,6 @@
   .text-32 {
     font-size: 24px;
     line-height: 24px;
-    letter-spacing: -1px;
   }
 
   .text-36 {
@@ -86,17 +110,11 @@
     letter-spacing: -4px;
   }
 
-  .section-2-layout .text-32 {
-    letter-spacing: -1px;
-    font-size: 22px;
-  }
-
   .section-2-layout .text-124 {
     font-size: 110px;
   }
 
   .card-content .text-24 {
-    letter-spacing: -1px;
     font-size: 18px;
   }
 
@@ -194,14 +212,17 @@
     font-size: 20px;
   }
 
-  .our-service-item .text-32 {
-    font-size: 18px;
-    line-height: 24px;
-    letter-spacing: -1px;
+  .btn-break {
+    width: 200px;
+    height: 48px;
   }
 }
 
 @media (max-width: 1540px) {
+  .section-break .text-188 {
+    font-size: 116px;
+  }
+
   .sectiton-getstarted .btn-header {
     width: 240px;
     height: 54px;
@@ -222,8 +243,8 @@
   }
 
   .text-36 {
-    font-size: 24px;
-    line-height: 24px;
+    font-size: 28px;
+    line-height: 28px;
   }
 
   .text-48 {
@@ -251,8 +272,8 @@
   }
 
   .text-188 {
-    font-size: 100px;
-    line-height: 86px;
+    font-size: 136px;
+    line-height: 110px;
     letter-spacing: -4px;
   }
 
@@ -266,7 +287,7 @@
 
   .btn-header {
     width: 180px;
-    height: 48px;
+    height: 40px;
   }
 
   .btn-banner {
@@ -276,21 +297,24 @@
 
   .img-effect-banner {
     width: 25%;
-    top: 50%;
+    top: 46%;
     left: 25%;
   }
 
-  .section-2-layout .text-32 {
-    letter-spacing: -1px;
-    font-size: 20px;
+  .card-service-group {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 25% 0 16px;
   }
 
   .img-effect-service {
-    top: 50%;
+    top: 56%;
+    width: 48%;
+    left: 18%;
   }
 
   .card-content .text-24 {
-    letter-spacing: -1px;
     font-size: 16px;
   }
 
@@ -321,10 +345,6 @@
     font-size: 88px;
     line-height: 68px;
     letter-spacing: -4px;
-  }
-
-  .our-service-item .text-36 {
-    font-size: 14px;
   }
 
   .mb-88 {
@@ -358,7 +378,7 @@
   }
 
   .our-team .badge {
-    top: 8px;
+    top: 16px;
     padding: 4px 8px;
     border-radius: 32px;
   }
@@ -369,7 +389,7 @@
   }
 
   .our-team:nth-child(1) .badge {
-    bottom: 8px;
+    bottom: 16px;
   }
 
   .btn-header.text-36 {
@@ -392,11 +412,100 @@
   }
 }
 
+@media (max-width: 1280px) {
+  .text-32 {
+    font-size: 16px;
+    line-height: 18px;
+  }
+
+  .our-service-item .image-group img {
+    width: 160px;
+  }
+
+  .our-service-item {
+    gap: 16px;
+  }
+
+  .img-effect-service {
+    top: 69%;
+    width: 48%;
+    left: 36%;
+  }
+
+  .card-content .text-24 {
+    font-size: 14px;
+  }
+
+  .text-36 {
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .img-effect-banner {
+    width: 28%;
+    top: 50%;
+    left: 32%;
+  }
+
+  .card-service-group {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 20% 0 16px;
+  }
+}
+
 @media (max-width: 1024px) {
+  .img-effect-service {
+    top: 76%;
+    width: 44%;
+    left: 48%;
+  }
+
+  .text-36 {
+    font-size: 20px;
+    line-height: 22px;
+  }
+
+  .our-service-model-group .flex-6,
+  .our-service-model-group .flex-4 {
+    flex: 0 0 50%;
+  }
+
+  .our-team:nth-child(3) .badge {
+    width: 192px;
+    padding: 4px 40px;
+    left: 75%;
+  }
+
+  .text-32 {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .text-24 {
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  .text-132 {
+    font-size: 80px;
+    line-height: 80px;
+    letter-spacing: -4px;
+  }
+
+  .card-service-group {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 16px;
+  }
+
   .group-link-footer-slogan p {
     font-size: 56px;
     line-height: 48px;
   }
+
   .section-2-layout .text-188 {
     font-size: 100px;
     line-height: 80px;
@@ -408,20 +517,8 @@
     padding-right: 32px;
   }
 
-  .section-2-layout .text-32 {
-    letter-spacing: -1px;
-    font-size: 16px;
-  }
-
   .card-content .text-24 {
-    letter-spacing: -1px;
     font-size: 12px;
-  }
-
-  .our-service-item .text-32 {
-    font-size: 14px;
-    line-height: 20px;
-    letter-spacing: -1px;
   }
 
   .wrap-content {
@@ -430,13 +527,7 @@
     row-gap: 12px;
   }
 
-  .text-32 {
-    font-size: 18px;
-    line-height: 20px;
-  }
-
-  .card-content {
-  }
+  .card-content {}
 
   /* .gap-wrap {
     gap: 20px;
@@ -447,16 +538,29 @@
 }
 
 @media (max-width: 768px) {
+
+  .wrap-content {
+    margin-top: 24px;
+  }
+
+  .mlh-24 {
+    margin-left: 0;
+  }
+
   .footer-group-mobile {
     display: flex;
   }
+
   .group-link-footer {
     flex: 0 0 50%;
   }
+
   .address-mobile {
     display: flex;
-    align-items: end;
+    flex-direction: column;
+    justify-content: end;
   }
+
   .section-break .text-188 {
     font-size: 84px;
   }
@@ -622,6 +726,10 @@
     margin-top: 36px;
   }
 
+  .our-service-item {
+    justify-content: center;
+  }
+
   .our-team-group {
     flex-wrap: wrap;
     gap: 0;
@@ -660,6 +768,11 @@
     margin-bottom: 24px;
   }
 
+  .card-content {
+    padding: 12px 16px;
+    min-height: 78px;
+  }
+
   .started-title-mobile {
     margin-bottom: 24px;
   }
@@ -672,11 +785,24 @@
 }
 
 @media (max-width: 480px) {
+
+  .section-2-layout .text-188 {
+    font-size: 80px;
+    line-height: 70px;
+    letter-spacing: -4px;
+  }
+
   .group-link-footer-slogan p {
     font-size: 48px;
     line-height: 38px;
     margin-bottom: 36px;
   }
+
+  .card-content .text-24 {
+    line-height: 18px;
+    font-size: 14px;
+  }
+
   .text-220 {
     letter-spacing: -2px;
   }
@@ -740,12 +866,12 @@
   }
 
   .text-32 {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 14px;
+    line-height: 16px;
   }
 
   .text-36 {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 18px;
   }
 
@@ -790,6 +916,7 @@
 
   .break-flex {
     flex-direction: column;
+    gap: 44px;
   }
 
   .break-text {
@@ -804,6 +931,14 @@
   .container {
     padding-left: 16px;
     padding-right: 16px;
+  }
+
+  .our-service-item {
+    gap: 16px;
+  }
+
+  .our-service-item .image-group img {
+    width: 150px;
   }
 
   .outcome-service-title .text-188 {
@@ -826,11 +961,6 @@
 
   .wrap-content {
     padding: 0;
-  }
-
-  .our-team:nth-child(1) .badge {
-    bottom: unset;
-    top: 8px;
   }
 
   .section {
@@ -859,7 +989,7 @@
   }
 
   .img-linked {
-    width: 24px;
+    width: 20px;
   }
 
   .text-effect h1 {
@@ -939,8 +1069,8 @@
   }
 
   .section-2-layout-p {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 14px;
+    line-height: 16px;
     margin-bottom: 36px;
   }
 
@@ -981,6 +1111,12 @@
   .btn-banner {
     width: 160px;
     height: 30px;
+  }
+
+  .section-2-layout-p {
+    font-size: 12px;
+    line-height: 14px;
+    margin-bottom: 36px;
   }
 
   .text-36.badge {

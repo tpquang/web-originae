@@ -4,6 +4,10 @@ hr {
   margin: 0;
 }
 
+.mlh-24 {
+  margin-left: 24px;
+}
+
 .text-effect-banner {
   color: rgba(0, 0, 0, 0);
   -webkit-text-stroke: 2px rgb(255, 255, 255);
