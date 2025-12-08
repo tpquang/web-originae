@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Originae</title>
+    <meta
+      name="description"
+      content="Originae assembles expert teams to deliver outcome-driven managed services — marketing, operations, business development and product & technology. Start with a pilot, prove value fast and scale. Book a meeting."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Theme-aware favicons: prefer media-based icons, with JS fallback -->
+    <link
+      rel="icon"
+      href="image/fav-light.svg"
+      media="(prefers-color-scheme: light)"
+    />
+    <link
+      rel="icon"
+      href="image/fav-dark.svg"
+      media="(prefers-color-scheme: dark)"
+    />
+    <link rel="icon" type="image/svg+xml" href="image/fav.svg" />
+
+    <script>
+      (function () {
+        try {
+          var stored = null;
+          try {
+            stored = localStorage.getItem("theme");
+          } catch (e) {}
+          var prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var theme = stored || (prefersDark ? "dark" : "light");
+
+          function applyIcon(href) {
+            var id = "dynamic-favicon";
+            var link = document.getElementById(id);
+            if (!link) {
+              link = document.createElement("link");
+              link.id = id;
+              link.rel = "icon";
+              document.head.appendChild(link);
+            }
+            var img = new Image();
+            img.onload = function () {
+              link.href = href;
+            };
+            img.onerror = function () {
+              link.href = "image/fav.svg";
+            };
+            img.src = href;
+          }
+
+          var chosen =
+            theme === "dark" ? "image/fav-dark.svg" : "image/fav-light.svg";
+          applyIcon(chosen);
+
+          if (!stored && window.matchMedia) {
+            var mq = window.matchMedia("(prefers-color-scheme: dark)");
+            var handler = function (e) {
+              applyIcon(
+                e.matches ? "image/fav-dark.svg" : "image/fav-light.svg"
+              );
+            };
+            if (mq.addEventListener) mq.addEventListener("change", handler);
+            else if (mq.addListener) mq.addListener(handler);
+          }
+
+          try {
+            var mo = new MutationObserver(function (muts) {
+              muts.forEach(function (m) {
+                if (m.attributeName === "data-theme") {
+                  var v = document.documentElement.getAttribute("data-theme");
+                  applyIcon(
+                    v === "dark" ? "image/fav-dark.svg" : "image/fav-light.svg"
+                  );
+                }
+              });
+            });
+            mo.observe(document.documentElement, { attributes: true });
+          } catch (e) {}
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Preconnect and preload fonts for better LCP -->
+    <link rel="preconnect" href="./" crossorigin />
+    <link
+      rel="preload"
+      href="fonts/Staatliches.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="fonts/TT_Norms_Pro_Regular.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="fonts/TT_Norms_Pro_Bold.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="styles.css?v=6.3"
+      as="style"
+      onload="this.rel='stylesheet'"
+    />
+    <link
+      rel="preload"
+      href="custom.css?v=6.3"
+      as="style"
+      onload="this.rel='stylesheet'"
+    />
+    <link
+      rel="preload"
+      href="responsive.css?v=6.3"
+      as="style"
+      onload="this.rel='stylesheet'"
+    />
+    <link
+      rel="preload"
+      href="css/responsive-term.css?v=1"
+      as="style"
+      onload="this.rel='stylesheet'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="styles.css?v=6.3" />
+      <link rel="stylesheet" href="custom.css?v=6.3" />
+      <link rel="stylesheet" href="responsive.css?v=6.3" />
+    </noscript>
+  </head>
+
+  <body>
+    <header class="container w-full bg-white flex justify-between align-center">
+      <div class="text-48 black font-heading">ORIGINAE</div>
+      <div class="flex gap-24">
+        <a href="#services" class="text-20 bold flex align-center">SERVICES</a>
+        <a href="#team" class="text-20 bold flex align-center">TEAM</a>
+        <a
+          href="https://calendly.com/tracycbis/30min"
+          class="btn btn-black btn-header font-base text-24 bold mlh-24"
+          >Book a meeting</a
+        >
+      </div>
+    </header>
+    <main role="main">
+      <!-- HERO -->
+      <div class="tab1"></div>
+      <div class="tab2"></div>
+      <!-- Policy layout: sidebar + content -->
+      <div class="policy-layout container">
+        <aside class="policy-sidebar">
+          <nav class="policy-nav">
+            <button
+              class="policy-tab btn-tab font-base text-24"
+              data-target="terms"
+              aria-controls="terms"
+            >
+              Terms
+            </button>
+            <button
+              class="policy-tab btn-tab font-base text-24"
+              data-target="privacy"
+              aria-controls="privacy"
+            >
+              Privacy &amp; Cookies
+            </button>
+          </nav>
+        </aside>
+        <div class="policy-content">
+          <section class="section" id="terms">
+            <div class="">
+              <h1 class="font-heading text-48 m-0">
+                Originae — Terms of Service (TOS)
+              </h1>
+              <p class="font-base text-24 mb-16">Last Updated: [insert date]</p>
+
+              <p class="font-base text-24 mb-16">
+                These Terms of Service (&ldquo;Terms&rdquo;) form a binding
+                agreement between you (&ldquo;Client&rdquo;, &ldquo;User&rdquo;,
+                or &ldquo;you&rdquo;) and Originae (&ldquo;Originae&rdquo;,
+                &ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;). By
+                accessing or using any of Originae&rsquo;s services, you confirm
+                that you have read, understood, and agreed to these Terms. If
+                you do not agree, you may not use the Services.
+              </p>
+
+              <h2 class="font-heading text-32">1. Nature of Services</h2>
+              <p class="font-base text-24 mb-16">
+                Originae provides execution-focused services across business
+                development, marketing, operations, and product &amp;
+                technology. We assemble specialist teams, manage delivery
+                end-to-end, and operate under engagement models such as
+                Fixed-Scope Mandates, Ongoing Managed Mandates, and Pilot or
+                MVP-first engagements. Originae is not a staffing agency,
+                employer of record, or freelance marketplace; we act as an
+                execution partner responsible for delivering the agreed scope of
+                work.
+              </p>
+
+              <h2 class="font-heading text-32">
+                2. Account Access and Client Responsibilities
+              </h2>
+              <p class="font-base text-24 mb-16">
+                To work with Originae, you may be required to create an account
+                or appoint a primary point of contact. You agree to provide
+                accurate and updated information, to safeguard your login
+                credentials, and to ensure that anyone acting on your behalf
+                complies with these Terms. Actions taken by your designated
+                representatives are considered authorized and binding on you.
+                Originae may suspend or terminate access if account details are
+                inaccurate, misused, or associated with a breach of these Terms.
+              </p>
+
+              <h2 class="font-heading text-32">
+                3. Scope, Delivery and Adjustments
+              </h2>
+              <p class="font-base text-24 mb-16">
+                Each engagement is governed by a written Scope of Work (SOW),
+                Mandate Agreement, or Proposal that outlines deliverables,
+                timelines, responsibilities, and fees. This document takes
+                precedence over these Terms where contradictions arise.
+                Execution timelines depend on the Client’s responsiveness,
+                clarity of instructions, and access to required information or
+                assets. Originae is not responsible for delays caused by
+                incomplete inputs, slow approvals, shifting requirements, or
+                third-party dependencies. If the Client requests changes or
+                additions to the agreed scope, such adjustments must be mutually
+                confirmed in writing and may require additional fees. Originae
+                retains full control over its internal processes, team
+                assignments, tools, and execution methodologies.
+              </p>
+
+              <h2 class="font-heading text-32">
+                4. Content and Intellectual Property
+              </h2>
+              <p class="font-base text-24 mb-16">
+                &ldquo;Client Content&rdquo; refers to materials, data,
+                documents, creative assets, and instructions provided to
+                Originae. You warrant that you hold all necessary rights to this
+                content and that its use by Originae will not violate any
+                third-party rights. Originae retains ownership of its internal
+                methodologies, frameworks, templates, automations, code
+                snippets, processes, and tools, even if used in the delivery of
+                Client work. Deliverables specifically created for the Client
+                become the Client&rsquo;s property once all due payments have
+                been made. Originae may, however, retain the right to reuse
+                generalized learnings, anonymized examples, or non-identifying
+                versions of deliverables for internal improvement or portfolio
+                purposes unless otherwise agreed.
+              </p>
+
+              <h2 class="font-heading text-32">5. Confidentiality</h2>
+              <p class="font-base text-24 mb-16">
+                Both parties agree to protect non-public information shared
+                during the engagement and to use such information solely for
+                purposes related to the Services. Confidentiality obligations do
+                not apply to information already public, independently
+                developed, obtained lawfully from a third party, or required to
+                be disclosed by law.
+              </p>
+
+              <h2 class="font-heading text-32">
+                6. Fees, Payments, and Refunds
+              </h2>
+              <p class="font-base text-24 mb-16">
+                All fees, invoicing schedules, and payment terms are defined
+                within the SOW or Mandate Agreement. Payments are non-refundable
+                unless explicitly stated otherwise. Late or missing payments may
+                result in delayed work, suspension of services, or termination
+                of the engagement. Chargebacks or disputed payments without
+                first contacting Originae constitute a breach of these Terms and
+                may result in immediate suspension.
+              </p>
+
+              <h2 class="font-heading text-32">7. Client Obligations</h2>
+              <p class="font-base text-24 mb-16">
+                Successful execution depends on your timely cooperation. You
+                agree to provide necessary information, tools, access,
+                approvals, assets, and feedback in a reasonable timeframe.
+                Originae is not responsible for missed objectives or timeline
+                slippage resulting from Client-side delays, internal
+                coordination issues, or unavailable stakeholders.
+              </p>
+
+              <h2 class="font-heading text-32">8. Prohibited Conduct</h2>
+              <p class="font-base text-24 mb-16">
+                You may not misuse Originae&rsquo;s services, processes, or
+                materials; misrepresent your identity; reverse-engineer or
+                replicate proprietary frameworks; solicit or attempt to hire
+                Originae personnel without consent; or use the Services for
+                unlawful purposes. Activities intended to extract internal
+                know-how or circumvent Originae&rsquo;s engagement structure are
+                strictly prohibited.
+              </p>
+
+              <h2 class="font-heading text-32">
+                9. Release and Indemnification
+              </h2>
+              <p class="font-base text-24 mb-16">
+                You understand that Originae provides execution services, not
+                guaranteed business outcomes. You agree to release and indemnify
+                Originae from any claims arising out of decisions you make based
+                on deliverables, delays caused by Client-side factors, misuse of
+                materials, or actions of third-party tools and integrations.
+                Originae is not liable for results such as revenue growth, user
+                acquisition performance, partnership outcomes, or market impact
+                unless otherwise explicitly stated in writing.
+              </p>
+
+              <h2 class="font-heading text-32">
+                10. Term, Termination, and Cancellation
+              </h2>
+              <p class="font-base text-24 mb-16">
+                These Terms apply for the duration of your use of the Services.
+                You may terminate an Ongoing Mandate with written notice as
+                specified in the SOW (typically 30 days). Fixed-scope and Pilot
+                engagements are not cancellable once initiated unless mutually
+                agreed. Upon termination, all outstanding fees become
+                immediately payable. Originae may terminate the engagement
+                without notice if payment is not received, if you breach the
+                Terms, or if your conduct poses unreasonable risk, obstruction,
+                or harm to the engagement or our team.
+              </p>
+
+              <h2 class="font-heading text-32">11. Limitation of Liability</h2>
+              <p class="font-base text-24 mb-16">
+                To the maximum extent permitted by law, Originae shall not be
+                liable for indirect, incidental, punitive, special, or
+                consequential damages, including but not limited to loss of
+                revenue, opportunity, profits, or data. Originae&rsquo;s total
+                liability under these Terms shall not exceed the fees paid by
+                the Client in the preceding three months.
+              </p>
+
+              <h2 class="font-heading text-32">12. Updates to Terms</h2>
+              <p class="font-base text-24 mb-16">
+                Originae may update or modify these Terms at any time. Material
+                updates will be communicated to active Clients. Continued use of
+                the Services after an update constitutes acceptance of the
+                revised Terms.
+              </p>
+
+              <h2 class="font-heading text-32">
+                13. Governing Law and Dispute Resolution
+              </h2>
+              <p class="font-base text-24 mb-16">
+                These Terms shall be governed by and construed according to the
+                laws of Singapore unless otherwise specified in the SOW. Before
+                pursuing arbitration or legal action, both parties agree to
+                attempt to resolve disputes informally for at least 30 days. If
+                unresolved, disputes will be handled through binding arbitration
+                conducted in Singapore or via virtual proceedings. Class actions
+                or representative claims are not permitted.
+              </p>
+
+              <h2 class="font-heading text-32">14. Contact Information</h2>
+              <p class="font-base text-24 mb-24">
+                Originae Telegram: @originaeadmin<br />If you have questions
+                regarding these Terms, please contact us through the channels
+                above.
+              </p>
+            </div>
+          </section>
+          <section id="privacy" class="section">
+            <div class="">
+              <h1 class="font-heading text-48 m-0">
+                Privacy &amp; Cookies Policy
+              </h1>
+              <p class="font-base text-24 mb-16">
+                Originae (&ldquo;Originae&rdquo;, &ldquo;we&rdquo;,
+                &ldquo;us&rdquo;, or &ldquo;our&rdquo;) is committed to
+                protecting your privacy. This Privacy &amp; Cookies Policy
+                explains how we collect, use, store, and safeguard your
+                information when you visit our website or use our services. By
+                accessing our site or engaging with our team, you consent to the
+                practices described below.
+              </p>
+
+              <h2 class="font-heading text-32">1. Who We Are</h2>
+              <p class="font-base text-24 mb-16">
+                Originae is an execution-first partner that helps companies
+                accelerate important initiatives across business development,
+                marketing, operations, and product &amp; technology. We assemble
+                specialist teams, manage delivery end-to-end, and operate as a
+                single accountable execution layer that supports your business
+                in moving faster. We are not a traditional agency, staffing
+                company, or freelancer marketplace. Our role is to provide
+                structured, high-quality execution capabilities, enabling
+                organizations to address bandwidth constraints and move critical
+                work from idea to completion.
+              </p>
+
+              <h2 class="font-heading text-32">2. Information We Collect</h2>
+              <h3 class="font-heading text-24">Personal Information</h3>
+              <p class="font-base text-24 mb-12">
+                Details you provide directly to us such as your name, company,
+                email, contact information, billing details, and any information
+                shared as part of your project or communication with Originae.
+              </p>
+              <h3 class="font-heading text-24">Usage Data</h3>
+              <p class="font-base text-24 mb-12">
+                Information automatically collected when you interact with our
+                website, including IP address, device information, browser type,
+                geographic region, pages viewed, time spent on the site, and
+                user behavior patterns.
+              </p>
+              <h3 class="font-heading text-24">
+                Cookies and Tracking Technologies
+              </h3>
+              <p class="font-base text-24 mb-12">
+                We use cookies, pixels, and similar technologies to understand
+                user behavior, improve website performance, and support
+                analytics and marketing attribution.
+              </p>
+              <h3 class="font-heading text-24">Third-Party Sources</h3>
+              <p class="font-base text-24 mb-16">
+                We may receive information from analytics platforms,
+                communication tools, scheduling systems, payment processors, and
+                other services you engage with during a mandate.
+              </p>
+
+              <h2 class="font-heading text-32">
+                3. How We Use Your Information
+              </h2>
+              <p class="font-base text-24 mb-16">
+                Originae uses the information collected to deliver services
+                defined in our agreements, communicate project updates and
+                support messages, improve internal processes and analytics,
+                develop new tools and systems, maintain platform security, and
+                comply with legal and financial obligations. We do not sell your
+                personal information.
+              </p>
+
+              <h2 class="font-heading text-32">
+                4. Legal Basis for Processing (GDPR)
+              </h2>
+              <p class="font-base text-24 mb-16">
+                For users located in the European Union, data is processed under
+                contractual necessity, legitimate interest, consent (e.g.,
+                marketing or cookies), and compliance with legal obligations.
+              </p>
+
+              <h2 class="font-heading text-32">
+                5. Data Sharing and Third Parties
+              </h2>
+              <p class="font-base text-24 mb-16">
+                We only share your data with trusted service providers when
+                necessary to deliver our services. These include payment and
+                invoicing platforms, cloud hosting and storage providers,
+                communication and collaboration tools, analytics services, and
+                specialists or contractors involved in your project. Any third
+                party receiving your data is obligated to handle it securely and
+                in compliance with applicable data protection laws.
+              </p>
+
+              <h2 class="font-heading text-32">
+                6. Data Storage, Security and Retention
+              </h2>
+              <p class="font-base text-24 mb-16">
+                Originae uses reasonable technical and organizational measures
+                to protect your data from unauthorized access, loss, misuse, or
+                alteration. We retain data only for as long as needed for
+                service delivery, legal compliance, or operational requirements.
+                You may request deletion of your data, subject to regulatory
+                limits.
+              </p>
+
+              <h2 class="font-heading text-32">7. Your Data Rights</h2>
+              <p class="font-base text-24 mb-16">
+                Depending on your jurisdiction, you may have rights including
+                access, correction, deletion, restriction of processing, data
+                portability, withdrawal of consent, and objection to direct
+                marketing. Requests can be made using the contact information
+                below.
+              </p>
+
+              <h2 class="font-heading text-32">8. Cookies Policy</h2>
+              <p class="font-base text-24 mb-16">
+                Cookies are used to enhance your experience and improve website
+                functionality. We use essential cookies for core site
+                operations, analytics cookies to understand user behavior, and
+                marketing cookies for attribution and performance tracking. You
+                may disable cookies through your browser settings, though some
+                features may not function correctly as a result.
+              </p>
+
+              <h2 class="font-heading text-32">
+                9. International Data Transfers
+              </h2>
+              <p class="font-base text-24 mb-16">
+                Your data may be processed outside your home country when
+                required to support our operations. We use compliant safeguards
+                such as Standard Contractual Clauses (SCCs) or equivalent
+                protections.
+              </p>
+
+              <h2 class="font-heading text-32">10. Third-Party Links</h2>
+              <p class="font-base text-24 mb-16">
+                Our website may contain links to external services. Originae is
+                not responsible for the privacy practices or content of those
+                platforms.
+              </p>
+
+              <h2 class="font-heading text-32">11. Changes to This Policy</h2>
+              <p class="font-base text-24 mb-24">
+                We may update this Privacy &amp; Cookies Policy periodically.
+                Significant changes will be posted on our site with an updated
+                &ldquo;Last Updated&rdquo; date. Continued use of our services
+                constitutes acceptance of the updated policy.
+              </p>
+            </div>
+          </section>
+        </div>
+        <!-- .policy-content -->
+      </div>
+      <!-- .policy-layout -->
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="section bg-gray-dark">
+      <div class="container desktop">
+        <div class="footer-group-desktop">
+          <div class="group-link-footer-slogan group-link-footer">
+            <p class="text-160 white font-heading footer-slogan">
+              WE SOLVE IT <br />FOR YOU.
+            </p>
+          </div>
+          <div class="group-link-footer">
+            <p class="font-base text-24 white bold mb-16">Services</p>
+            <div class="group-link-footer-child">
+              <a class="font-base text-24 white" href="#marketing">Marketing</a>
+              <a class="font-base text-24 white" href="#operations"
+                >Operations</a
+              >
+              <a class="font-base text-24 white" href="#business-development"
+                >Business Development</a
+              >
+              <a class="font-base text-24 white" href="#product-technology"
+                >Product &amp; Technology</a
+              >
+              <a class="font-base text-24 white" href="#team">Team</a>
+            </div>
+          </div>
+          <div class="group-link-footer">
+            <p class="font-base text-24 white bold mb-16">Contact us</p>
+            <div class="group-link-footer-child">
+              <p class="font-base text-24 white">+123456789</p>
+              <p class="font-base text-24 white">email@example.com</p>
+              <p class="font-base text-24 white">Zurich, Switzerland</p>
+              <p class="font-base text-24 white">2025 All rights reserved</p>
+            </div>
+          </div>
+          <div class="group-link-footer">
+            <div class="mb-16">
+              <p class="font-base text-24 white bold mb-16">Follow us</p>
+              <img
+                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+                data-src="./image/linked.svg"
+                alt="link"
+                class="img-linked mr-16"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+                data-src="./image/whatsapp.svg"
+                alt="link"
+                class="img-linked"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="">
+              <p class="font-base text-24 white bold mb-16">Terms & Legal</p>
+              <div class="group-link-footer-child">
+                <a
+                  class="font-base text-24 white"
+                  target="_blank"
+                  href="policy.html"
+                  >Privacy Policy</a
+                >
+                <a class="font-base text-24 white" target="_blank" href=""
+                  >Legal Disclaimer</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container mobile">
+        <div class="group-link-footer-slogan group-link-footer">
+          <p
+            class="text-160 white font-heading footer-slogan text-center mb-24"
+          >
+            WE SOLVE IT <br />FOR YOU.
+          </p>
+        </div>
+        <div class="footer-group-mobile mb-24">
+          <div class="group-link-footer">
+            <p class="font-base text-24 white bold mb-16">Services</p>
+            <div class="group-link-footer-child">
+              <a class="font-base text-24 white" href="#marketing">Marketing</a>
+              <a class="font-base text-24 white" href="#operations"
+                >Operations</a
+              >
+              <a class="font-base text-24 white" href="#business-development"
+                >Business Development</a
+              >
+              <a class="font-base text-24 white" href="#product-technology"
+                >Product &amp; Technology</a
+              >
+              <a class="font-base text-24 white" href="#team">Team</a>
+            </div>
+          </div>
+          <div class="group-link-footer">
+            <div class="mb-16">
+              <p class="font-base text-24 white bold mb-16">Contact us</p>
+              <div class="group-link-footer-child">
+                <p class="font-base text-24 white">+123456789</p>
+                <p class="font-base text-24 white">email@example.com</p>
+              </div>
+            </div>
+            <div class="">
+              <p class="font-base text-24 white bold mb-16">Follow us</p>
+              <img
+                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+                data-src="./image/linked.svg"
+                alt="link"
+                class="img-linked mr-16"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+                data-src="./image/whatsapp.svg"
+                alt="link"
+                class="img-linked"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="footer-group-mobile mb-24">
+          <div class="group-link-footer">
+            <p class="font-base text-24 white bold mb-16">Terms & Legal</p>
+            <div class="group-link-footer-child">
+              <a
+                class="font-base text-24 white"
+                target="_blank"
+                href="policy.html"
+                >Privacy Policy</a
+              >
+              <a class="font-base text-24 white" target="_blank" href=""
+                >Legal Disclaimer</a
+              >
+            </div>
+          </div>
+          <div class="group-link-footer address-mobile">
+            <p class="font-base text-24 white mb-8">Zurich, Switzerland</p>
+            <p class="font-base text-24 white">2025 All rights reserved</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="scripts/lazy-after-banner.js" defer></script>
+    <script src="scripts/policy.js" defer></script>
+  </body>
+</html>

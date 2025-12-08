@@ -1,0 +1,97 @@
+/* Responsive layout for policy pages: sidebar + content */
+.policy-layout {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.policy-sidebar {
+  flex: 0 0 20%;
+  min-width: 160px;
+  position: sticky;
+  top: 92px; /* account for header height */
+  align-self: flex-start;
+}
+
+.policy-nav {
+  display: flex;
+  margin-top: 40px;
+  flex-direction: column;
+  gap: 12px;
+  background: transparent;
+}
+
+main p {
+  text-align: justify;
+}
+
+header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-tab {
+  background: transparent;
+  border: 0;
+  text-align: left;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: var(--color-black, #000);
+}
+
+.btn-tab.policy-active {
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+}
+
+.policy-content {
+  flex: 0 0 60%;
+}
+
+.policy-hidden {
+  display: none !important;
+}
+
+/* Small screens: stack layout */
+@media (max-width: 900px) {
+  .policy-layout {
+    flex-direction: column;
+    padding: 0 16px;
+  }
+  .policy-sidebar {
+    position: relative;
+    width: 100%;
+    top: 0;
+  }
+  .policy-content {
+    width: 100%;
+  }
+  .btn-tab {
+    display: inline-block;
+  }
+}
+
+/* Ensure headings/paragraph spacing matches site utilities */
+.policy-content h1 {
+  margin-bottom: 12px;
+}
+.policy-content h2 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+.policy-content p {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 480px) {
+  .policy-nav {
+    display: flex;
+    margin-top: 80px;
+    flex-direction: row;
+    gap: 12px;
+    background: transparent;
+  }
+
+  .policy-layout {
+    gap: 0;
+  }
+}
