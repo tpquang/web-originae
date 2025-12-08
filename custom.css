@@ -16,7 +16,9 @@ hr {
 .count-started {
   min-width: 60px;
 }
-
+.card-started .bold {
+  margin-bottom: 8px;
+}
 .img-effect-banner {
   width: 30%;
   top: 50%;
@@ -129,7 +131,6 @@ hr {
   border-radius: 24px;
   padding: 24px 8px;
   flex: 0 0 calc(50% - 16px);
-  ;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -174,7 +175,6 @@ hr {
 
 .our-service-item .image-group img {
   width: 320px;
-
 }
 
 .our-service-item .image-group p {
@@ -352,7 +352,8 @@ hr {
   display: none;
 }
 
-.image-circle {}
+.image-circle {
+}
 
 .image-circle {
   transform: translateY(0);
@@ -375,7 +376,7 @@ hr {
 }
 
 .group-link-footer {
-  flex: 0 0 25%
+  flex: 0 0 25%;
 }
 
 .group-link-footer-child {

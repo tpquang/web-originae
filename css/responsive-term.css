@@ -1,3 +1,11 @@
+main .font-heading,
+main .font-base {
+  font-family: "times new roman", serif;
+}
+
+main .font-heading {
+  font-weight: bold;
+}
 /* Responsive layout for policy pages: sidebar + content */
 .policy-layout {
   display: flex;
