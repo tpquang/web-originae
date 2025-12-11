@@ -1,5 +1,4 @@
 (function () {
-
   const cfg = {
     bannerSelector: ".img-effect-banner",
     bannerTimeout: 500,
@@ -67,13 +66,19 @@
 
     const tasks = [];
     sources.forEach((s) => {
-      const srcset = mobile ? s.dataset.srcsetMobile || s.dataset.srcset : s.dataset.srcset || s.dataset.srcsetMobile;
+      const srcset = mobile
+        ? s.dataset.srcsetMobile || s.dataset.srcset
+        : s.dataset.srcset || s.dataset.srcsetMobile;
       if (srcset) tasks.push(() => assignImage(s, { srcset }));
     });
 
     if (img) {
-      const srcset = mobile ? img.dataset.srcsetMobile || img.dataset.srcset : img.dataset.srcset || img.dataset.srcsetMobile;
-      const src = mobile ? img.dataset.srcMobile || img.dataset.src : img.dataset.src || img.dataset.srcMobile;
+      const srcset = mobile
+        ? img.dataset.srcsetMobile || img.dataset.srcset
+        : img.dataset.srcset || img.dataset.srcsetMobile;
+      const src = mobile
+        ? img.dataset.srcMobile || img.dataset.src
+        : img.dataset.src || img.dataset.srcMobile;
       if (srcset || src) tasks.push(() => assignImage(img, { src, srcset }));
     }
 
@@ -83,9 +88,12 @@
   function loadBackground(el) {
     if (!el || !el.dataset) return Promise.resolve();
     const mobile = isMobile();
-    const src = mobile ? el.dataset.bgMobile || el.dataset.bg : el.dataset.bg || el.dataset.bgMobile;
+    const src = mobile
+      ? el.dataset.bgMobile || el.dataset.bg
+      : el.dataset.bg || el.dataset.bgMobile;
     if (!src) return Promise.resolve();
-    if (mobile && cfg.mobileSkip.some((s) => src.includes(s))) return Promise.resolve();
+    if (mobile && cfg.mobileSkip.some((s) => src.includes(s)))
+      return Promise.resolve();
     return new Promise((res) => {
       const img = new Image();
       img.onload = img.onerror = () => {
@@ -101,19 +109,43 @@
   function elementLoadTask(el) {
     if (!el) return Promise.resolve();
     if (el.tagName === "PICTURE") return loadPicture(el);
-    if (el.tagName === "IMG") return loadPicture(el.parentElement && el.parentElement.tagName === "PICTURE" ? el.parentElement : null).then(() => assignImage(el, {
-      src: isMobile() ? el.dataset.srcMobile || el.dataset.src : el.dataset.src || el.dataset.srcMobile,
-      srcset: isMobile() ? el.dataset.srcsetMobile || el.dataset.srcset : el.dataset.srcset || el.dataset.srcsetMobile,
-    }));
+    if (el.tagName === "IMG")
+      return loadPicture(
+        el.parentElement && el.parentElement.tagName === "PICTURE"
+          ? el.parentElement
+          : null
+      ).then(() =>
+        assignImage(el, {
+          src: isMobile()
+            ? el.dataset.srcMobile || el.dataset.src
+            : el.dataset.src || el.dataset.srcMobile,
+          srcset: isMobile()
+            ? el.dataset.srcsetMobile || el.dataset.srcset
+            : el.dataset.srcset || el.dataset.srcsetMobile,
+        })
+      );
     return loadBackground(el);
   }
 
   function queryLazyElements() {
-    const pictures = Array.from(document.querySelectorAll("picture")).filter(p => p.querySelector("source[data-srcset], source[data-srcset-mobile], img[data-src], img[data-src-mobile], img[data-srcset], img[data-srcset-mobile]"));
-    const imgs = Array.from(document.querySelectorAll("img[data-src], img[data-src-mobile], img[data-srcset], img[data-srcset-mobile]"));
-    const bgs = Array.from(document.querySelectorAll("[data-bg], [data-bg-mobile]"));
-    const pictureImgs = new Set(pictures.map(p => p.querySelector("img")).filter(Boolean));
-    const imgsFiltered = imgs.filter(i => !pictureImgs.has(i));
+    const pictures = Array.from(document.querySelectorAll("picture")).filter(
+      (p) =>
+        p.querySelector(
+          "source[data-srcset], source[data-srcset-mobile], img[data-src], img[data-src-mobile], img[data-srcset], img[data-srcset-mobile]"
+        )
+    );
+    const imgs = Array.from(
+      document.querySelectorAll(
+        "img[data-src], img[data-src-mobile], img[data-srcset], img[data-srcset-mobile]"
+      )
+    );
+    const bgs = Array.from(
+      document.querySelectorAll("[data-bg], [data-bg-mobile]")
+    );
+    const pictureImgs = new Set(
+      pictures.map((p) => p.querySelector("img")).filter(Boolean)
+    );
+    const imgsFiltered = imgs.filter((i) => !pictureImgs.has(i));
     return { pictures, imgs: imgsFiltered, bgs };
   }
 
@@ -122,37 +154,59 @@
     const mobile = isMobile();
 
     if (mobile && window.IntersectionObserver) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          const el = entry.target;
-          io.unobserve(el);
-          elementLoadTask(el).catch(()=>{});
-        });
-      }, { root: null, rootMargin: cfg.ioRootMargin, threshold: 0 });
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            io.unobserve(el);
+            elementLoadTask(el).catch(() => {});
+          });
+        },
+        { root: null, rootMargin: cfg.ioRootMargin, threshold: 0 }
+      );
 
-      pictures.forEach(p => io.observe(p));
-      imgs.forEach(i => io.observe(i));
-      bgs.forEach(b => io.observe(b));
+      pictures.forEach((p) => io.observe(p));
+      imgs.forEach((i) => io.observe(i));
+      bgs.forEach((b) => io.observe(b));
 
-      const inView = [...pictures, ...imgs, ...bgs].filter(el => {
+      const inView = [...pictures, ...imgs, ...bgs].filter((el) => {
         const r = el.getBoundingClientRect();
-        return r.bottom >= -200 && r.top <= (window.innerHeight || document.documentElement.clientHeight) + 200;
+        return (
+          r.bottom >= -200 &&
+          r.top <=
+            (window.innerHeight || document.documentElement.clientHeight) + 200
+        );
       });
-      inView.forEach(el => { try { elementLoadTask(el); } catch(e){} });
+      inView.forEach((el) => {
+        try {
+          elementLoadTask(el);
+        } catch (e) {}
+      });
     } else {
-      const tasks = [...pictures.map(p => () => elementLoadTask(p)), ...imgs.map(i => () => elementLoadTask(i)), ...bgs.map(b => () => elementLoadTask(b))];
+      const tasks = [
+        ...pictures.map((p) => () => elementLoadTask(p)),
+        ...imgs.map((i) => () => elementLoadTask(i)),
+        ...bgs.map((b) => () => elementLoadTask(b)),
+      ];
       const runner = () => tasks.reduce((p, t) => p.then(t), Promise.resolve());
-      if (supportsRIC()) requestIdleCallback(() => runner()); else runner();
+      if (supportsRIC()) requestIdleCallback(() => runner());
+      else runner();
     }
   }
 
   function onFirstInteraction(fn) {
-    const once = () => { fn(); window.removeEventListener('scroll', once); window.removeEventListener('touchstart', once); window.removeEventListener('mousemove', once); window.removeEventListener('keydown', once); };
-    window.addEventListener('scroll', once, { passive: true });
-    window.addEventListener('touchstart', once, { passive: true });
-    window.addEventListener('mousemove', once, { passive: true });
-    window.addEventListener('keydown', once, { passive: true });
+    const once = () => {
+      fn();
+      window.removeEventListener("scroll", once);
+      window.removeEventListener("touchstart", once);
+      window.removeEventListener("mousemove", once);
+      window.removeEventListener("keydown", once);
+    };
+    window.addEventListener("scroll", once, { passive: true });
+    window.addEventListener("touchstart", once, { passive: true });
+    window.addEventListener("mousemove", once, { passive: true });
+    window.addEventListener("keydown", once, { passive: true });
   }
 
   async function init() {
@@ -163,11 +217,15 @@
     try {
       const bannerEl = document.querySelector(cfg.bannerSelector);
       if (bannerEl) {
-        if (bannerEl.tagName === 'IMG') {
-          const src = isMobile() ? (bannerEl.dataset.srcMobile || bannerEl.dataset.src) : (bannerEl.dataset.src || bannerEl.src);
-          const srcset = isMobile() ? (bannerEl.dataset.srcsetMobile || bannerEl.dataset.srcset) : (bannerEl.dataset.srcset || null);
+        if (bannerEl.tagName === "IMG") {
+          const src = isMobile()
+            ? bannerEl.dataset.srcMobile || bannerEl.dataset.src
+            : bannerEl.dataset.src || bannerEl.src;
+          const srcset = isMobile()
+            ? bannerEl.dataset.srcsetMobile || bannerEl.dataset.srcset
+            : bannerEl.dataset.srcset || null;
           if (src || srcset) await assignImage(bannerEl, { src, srcset });
-        } else if (bannerEl.tagName === 'PICTURE') {
+        } else if (bannerEl.tagName === "PICTURE") {
           await loadPicture(bannerEl);
         }
       }
@@ -177,7 +235,11 @@
 
     // Delay loading other images by ~5s to prioritize LCP and primary content
     const delayMs = 500;
-    const startLoads = () => { try { observeAndLoad(); } catch (e) {} };
+    const startLoads = () => {
+      try {
+        observeAndLoad();
+      } catch (e) {}
+    };
 
     if (supportsRIC()) {
       setTimeout(() => requestIdleCallback(startLoads), delayMs);
@@ -186,11 +248,82 @@
     }
 
     // Fallback: load remaining assets on first user interaction
-    onFirstInteraction(() => { try { observeAndLoad(); } catch (e) {} });
+    onFirstInteraction(() => {
+      try {
+        observeAndLoad();
+      } catch (e) {}
+    });
 
     // Handle back/forward cache restores
-    window.addEventListener('pageshow', (ev) => { if (ev.persisted) { try { observeAndLoad(); } catch (e) {} } });
+    window.addEventListener("pageshow", (ev) => {
+      if (ev.persisted) {
+        try {
+          observeAndLoad();
+        } catch (e) {}
+      }
+    });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
+
+(function () {
+  try {
+    var stored = null;
+    try {
+      stored = localStorage.getItem("theme");
+    } catch (e) {}
+    var prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var theme = stored || (prefersDark ? "dark" : "light");
+
+    function applyIcon(href) {
+      var id = "dynamic-favicon";
+      var link = document.getElementById(id);
+      if (!link) {
+        link = document.createElement("link");
+        link.id = id;
+        link.rel = "icon";
+        document.head.appendChild(link);
+      }
+      var img = new Image();
+      img.onload = function () {
+        link.href = href;
+      };
+      img.onerror = function () {
+        link.href = "image/fav.svg";
+      };
+      img.src = href;
+    }
+
+    var chosen =
+      theme === "dark" ? "image/fav-dark.svg" : "image/fav-light.svg";
+    applyIcon(chosen);
+
+    if (!stored && window.matchMedia) {
+      var mq = window.matchMedia("(prefers-color-scheme: dark)");
+      var handler = function (e) {
+        applyIcon(e.matches ? "image/fav-dark.svg" : "image/fav-light.svg");
+      };
+      if (mq.addEventListener) mq.addEventListener("change", handler);
+      else if (mq.addListener) mq.addListener(handler);
+    }
+
+    try {
+      var mo = new MutationObserver(function (muts) {
+        muts.forEach(function (m) {
+          if (m.attributeName === "data-theme") {
+            var v = document.documentElement.getAttribute("data-theme");
+            applyIcon(
+              v === "dark" ? "image/fav-dark.svg" : "image/fav-light.svg"
+            );
+          }
+        });
+      });
+      mo.observe(document.documentElement, { attributes: true });
+    } catch (e) {}
+  } catch (e) {}
 })();

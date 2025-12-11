@@ -8,7 +8,70 @@
       content="Originae assembles expert teams to deliver outcome-driven managed services — marketing, operations, business development and product & technology. Start with a pilot, prove value fast and scale. Book a meeting."
     />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Theme-aware favicons: prefer media-based icons, with JS fallback -->
+    <style id="critical-loading">
+      #loading {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        z-index: 9999;
+        transition: opacity 0.35s ease, visibility 0.35s ease;
+        overflow: hidden;
+        /* isolate overlay from document layout changes to avoid reflow/resize */
+        contain: strict;
+      }
+      /* Ensure predictable sizing for overlay children before global CSS loads */
+      #loading,
+      #loading * {
+        box-sizing: border-box;
+      }
+      #loading .loading-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      #loading .spinner {
+        width: 56px;
+        height: 56px;
+        min-width: 56px;
+        min-height: 56px;
+        max-width: 56px;
+        max-height: 56px;
+        box-sizing: border-box;
+        border-radius: 50%;
+        border: 6px solid rgba(0, 0, 0, 0.12);
+        border-top-color: #000;
+        animation: spin 1s linear infinite;
+        transform: none;
+        will-change: transform, opacity;
+        -webkit-transform: none;
+      }
+      #loading .loading-label {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+          sans-serif;
+        font-size: 15px;
+        color: #111;
+      }
+      #loading[aria-hidden="true"] {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      /* alternate class-based hide state used by JS for transitionend handling */
+      #loading.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
     <link
       rel="icon"
       href="image/fav-light.svg"
@@ -21,70 +84,6 @@
     />
     <link rel="icon" type="image/svg+xml" href="image/fav.svg" />
 
-    <script>
-      (function () {
-        try {
-          var stored = null;
-          try {
-            stored = localStorage.getItem("theme");
-          } catch (e) {}
-          var prefersDark =
-            window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches;
-          var theme = stored || (prefersDark ? "dark" : "light");
-
-          function applyIcon(href) {
-            var id = "dynamic-favicon";
-            var link = document.getElementById(id);
-            if (!link) {
-              link = document.createElement("link");
-              link.id = id;
-              link.rel = "icon";
-              document.head.appendChild(link);
-            }
-            var img = new Image();
-            img.onload = function () {
-              link.href = href;
-            };
-            img.onerror = function () {
-              link.href = "image/fav.svg";
-            };
-            img.src = href;
-          }
-
-          var chosen =
-            theme === "dark" ? "image/fav-dark.svg" : "image/fav-light.svg";
-          applyIcon(chosen);
-
-          if (!stored && window.matchMedia) {
-            var mq = window.matchMedia("(prefers-color-scheme: dark)");
-            var handler = function (e) {
-              applyIcon(
-                e.matches ? "image/fav-dark.svg" : "image/fav-light.svg"
-              );
-            };
-            if (mq.addEventListener) mq.addEventListener("change", handler);
-            else if (mq.addListener) mq.addListener(handler);
-          }
-
-          try {
-            var mo = new MutationObserver(function (muts) {
-              muts.forEach(function (m) {
-                if (m.attributeName === "data-theme") {
-                  var v = document.documentElement.getAttribute("data-theme");
-                  applyIcon(
-                    v === "dark" ? "image/fav-dark.svg" : "image/fav-light.svg"
-                  );
-                }
-              });
-            });
-            mo.observe(document.documentElement, { attributes: true });
-          } catch (e) {}
-        } catch (e) {}
-      })();
-    </script>
-
-    <!-- Preconnect and preload fonts for better LCP -->
     <link rel="preconnect" href="./" crossorigin />
     <link
       rel="preload"
@@ -132,7 +131,15 @@
     </noscript>
   </head>
 
-  <body>
+  <body style="overflow: hidden;">
+    <div id="loading" class="loading" aria-hidden="false">
+      <div class="loading-inner">
+        <div class="spinner" aria-hidden="true"></div>
+        <div class="loading-label" role="status" aria-live="polite">
+          Loading
+        </div>
+      </div>
+    </div>
     <header class="container w-full bg-white flex justify-between align-center">
       <div class="text-48 black font-heading">
         <a href="index.html">ORIGINAE</a>
@@ -199,6 +206,96 @@
           </div>
         </div>
       </section>
+      <script>
+        (function () {
+          var OVERLAY_ID = "loading";
+          var banner = document.querySelector(".img-effect-banner");
+          var MAX_WAIT = 7000; // safety fallback in ms
+          var POLL_INTERVAL = 200; // ms when polling for overlay insertion
+          var POLL_MAX = 10; // number of polls (~2s)
+          var removed = false;
+
+          function fadeRemove(el) {
+            if (!el || removed) return;
+            removed = true;
+            try {
+              el.setAttribute("aria-hidden", "true");
+              el.offsetHeight;
+              el.classList.add("is-hidden");
+
+              var removedByTransition = false;
+              var onEnd = function (ev) {
+                if (ev && ev.target !== el) return;
+                removedByTransition = true;
+                cleanup();
+              };
+
+              var cleanup = function () {
+                try {
+                  el.removeEventListener("transitionend", onEnd);
+                  // restore document scrolling now that loading overlay is gone
+                  try {
+                    document.documentElement.style.overflow = "";
+                  } catch (e) {}
+                  try {
+                    document.body.style.overflow = "";
+                  } catch (e) {}
+                  el.parentNode && el.parentNode.removeChild(el);
+                } catch (e) {}
+              };
+
+              el.addEventListener("transitionend", onEnd);
+              // Fallback in case transitionend doesn't fire
+              setTimeout(function () {
+                if (!removedByTransition) cleanup();
+              }, 700);
+            } catch (e) {}
+          }
+
+          function tryRemoveOverlayNow() {
+            var o = document.getElementById(OVERLAY_ID);
+            if(o) { fadeRemove(o); return true; }
+            return false;
+          }
+
+          function waitForOverlayThenRemove() {
+            if (tryRemoveOverlayNow()) return;
+            var checks = 0;
+            var iv = setInterval(function () {
+              checks++;
+              if (tryRemoveOverlayNow() || checks >= POLL_MAX) {
+                clearInterval(iv);
+              }
+            }, POLL_INTERVAL);
+          }
+
+          // If banner exists, attach handlers as early as possible
+          if (banner) {
+            if (banner.complete) {
+              // banner already loaded; remove overlay as soon as it appears
+              waitForOverlayThenRemove();
+            } else {
+              banner.addEventListener("load", waitForOverlayThenRemove, {
+                once: true,
+              });
+              banner.addEventListener("error", waitForOverlayThenRemove, {
+                once: true,
+              });
+            }
+          } else {
+            // Banner not present yet: ensure we attempt removal once DOM is interactive
+            document.addEventListener("readystatechange", function () {
+              if (
+                document.readyState === "interactive" ||
+                document.readyState === "complete"
+              )
+                waitForOverlayThenRemove();
+            });
+          }
+
+          setTimeout(waitForOverlayThenRemove, MAX_WAIT);
+        })();
+      </script>
 
       <!-- OUTCOME DRIVEN SERVICES -->
       <section class="section section-m" id="services">
@@ -736,23 +833,28 @@
                   </p>
                 </div>
                 <div class="card-started">
-                    <p class="font-base text-32 white bold">HIGH CALIBER TALENT:</p>
-                    <p class="font-base text-32 white">
-                      Degree-educated specialists matched to you problem
-                    </p>
+                  <p class="font-base text-32 white bold">
+                    HIGH CALIBER TALENT:
+                  </p>
+                  <p class="font-base text-32 white">
+                    Degree-educated specialists matched to you problem
                   </p>
                 </div>
                 <div class="card-started">
-                  <p class="font-base text-32 white bold">SWISS-BASED LEADERSHIP:</p>
+                  <p class="font-base text-32 white bold">
+                    SWISS-BASED LEADERSHIP:
+                  </p>
                   <p class="font-base text-32 white">
                     Stable, accountable management and communication.
                   </p>
                 </div>
                 <div class="card-started">
-                  <p class="font-base text-32 white bold">MODULAR ENGAGEMENT:</p>
-                    <p class="font-base text-32 white">
-                      Start with one mandate, expand as needed.
-                    </p>
+                  <p class="font-base text-32 white bold">
+                    MODULAR ENGAGEMENT:
+                  </p>
+                  <p class="font-base text-32 white">
+                    Start with one mandate, expand as needed.
+                  </p>
                 </div>
                 <div class="card-started">
                   <p class="font-base text-32 white bold">COST-EFFECTIVE:</p>
@@ -830,12 +932,12 @@
             <div class="">
               <p class="font-base text-24 white bold mb-16">Terms & Legal</p>
               <div class="group-link-footer-child">
-                 <a
-                    class="font-base text-24 white"
-                    target="_blank"
-                    href="policy.html#terms"
-                    >Terms of Service</a
-                  >
+                <a
+                  class="font-base text-24 white"
+                  target="_blank"
+                  href="policy.html#terms"
+                  >Terms of Service</a
+                >
                 <a
                   class="font-base text-24 white"
                   target="_blank"
@@ -928,7 +1030,7 @@
                 href="policy.html#privacy"
                 >Privacy Policy</a
               >
-              <a class="font-base text-24 white">Legal Disclaimer</a>              >
+              <a class="font-base text-24 white">Legal Disclaimer</a>
             </div>
           </div>
           <div class="group-link-footer address-mobile">
