@@ -1,1045 +1,842 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Originae</title>
-    <meta
-      name="description"
-      content="Originae assembles expert teams to deliver outcome-driven managed services — marketing, operations, business development and product & technology. Start with a pilot, prove value fast and scale. Book a meeting."
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style id="critical-loading">
-      #loading {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #fff;
-        z-index: 9999;
-        transition: opacity 0.35s ease, visibility 0.35s ease;
-        overflow: hidden;
-        /* isolate overlay from document layout changes to avoid reflow/resize */
-        contain: strict;
-      }
-      /* Ensure predictable sizing for overlay children before global CSS loads */
-      #loading,
-      #loading * {
-        box-sizing: border-box;
-      }
-      #loading .loading-inner {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-      }
-      #loading .spinner {
-        width: 56px;
-        height: 56px;
-        min-width: 56px;
-        min-height: 56px;
-        max-width: 56px;
-        max-height: 56px;
-        box-sizing: border-box;
-        border-radius: 50%;
-        border: 6px solid rgba(0, 0, 0, 0.12);
-        border-top-color: #000;
-        animation: spin 1s linear infinite;
-        transform: none;
-        will-change: transform, opacity;
-        -webkit-transform: none;
-      }
-      #loading .loading-label {
-        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial,
-          sans-serif;
-        font-size: 15px;
-        color: #111;
-      }
-      #loading[aria-hidden="true"] {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-      /* alternate class-based hide state used by JS for transitionend handling */
-      #loading.is-hidden {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-      }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    </style>
-    <link
-      rel="icon"
-      href="image/fav-light.svg"
-      media="(prefers-color-scheme: light)"
-    />
-    <link
-      rel="icon"
-      href="image/fav-dark.svg"
-      media="(prefers-color-scheme: dark)"
-    />
-    <link rel="icon" type="image/svg+xml" href="image/fav.svg" />
 
-    <link rel="preconnect" href="./" crossorigin />
-    <link
-      rel="preload"
-      href="fonts/Staatliches.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="fonts/TT_Norms_Pro_Regular.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="fonts/TT_Norms_Pro_Bold.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="styles.css?v=6.41"
-      as="style"
-      onload="this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="custom.css?v=6.41"
-      as="style"
-      onload="this.rel='stylesheet'"
-    />
-    <link
-      rel="preload"
-      href="responsive.css?v=6.41"
-      as="style"
-      onload="this.rel='stylesheet'"
-    />
-    <noscript>
-      <link rel="stylesheet" href="styles.css?v=6.41" />
-      <link rel="stylesheet" href="custom.css?v=6.41" />
-      <link rel="stylesheet" href="responsive.css?v=6.41" />
-    </noscript>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Originae</title>
+  <meta name="description"
+    content="Originae assembles expert teams to deliver outcome-driven managed services — marketing, operations, business development and product & technology. Start with a pilot, prove value fast and scale. Book a meeting." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style id="critical-loading">
+    #loading {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      z-index: 9999;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      overflow: hidden;
+      /* isolate overlay from document layout changes to avoid reflow/resize */
+      contain: strict;
+    }
 
-  <body style="overflow: hidden;">
-    <div id="loading" class="loading" aria-hidden="false">
-      <div class="loading-inner">
-        <div class="spinner" aria-hidden="true"></div>
-        <div class="loading-label" role="status" aria-live="polite">
-          Loading
-        </div>
+    /* Ensure predictable sizing for overlay children before global CSS loads */
+    #loading,
+    #loading * {
+      box-sizing: border-box;
+    }
+
+    #loading .loading-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #loading .spinner {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      min-height: 56px;
+      max-width: 56px;
+      max-height: 56px;
+      box-sizing: border-box;
+      border-radius: 50%;
+      border: 6px solid rgba(0, 0, 0, 0.12);
+      border-top-color: #000;
+      animation: spin 1s linear infinite;
+      transform: none;
+      will-change: transform, opacity;
+      -webkit-transform: none;
+    }
+
+    #loading .loading-label {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+        sans-serif;
+      font-size: 15px;
+      color: #111;
+    }
+
+    #loading[aria-hidden="true"] {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* alternate class-based hide state used by JS for transitionend handling */
+    #loading.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+  <link rel="icon" href="image/fav-light.svg" media="(prefers-color-scheme: light)" />
+  <link rel="icon" href="image/fav-dark.svg" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/svg+xml" href="image/fav.svg" />
+
+  <link rel="preconnect" href="./" crossorigin />
+  <link rel="preload" href="fonts/Staatliches.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/TT_Norms_Pro_Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/TT_Norms_Pro_Bold.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="styles.css?v=6.41" as="style" onload="this.rel='stylesheet'" />
+  <link rel="preload" href="custom.css?v=6.41" as="style" onload="this.rel='stylesheet'" />
+  <link rel="preload" href="responsive.css?v=6.41" as="style" onload="this.rel='stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="styles.css?v=6.41" />
+    <link rel="stylesheet" href="custom.css?v=6.41" />
+    <link rel="stylesheet" href="responsive.css?v=6.41" />
+  </noscript>
+</head>
+
+<body style="overflow: hidden;">
+  <div id="loading" class="loading" aria-hidden="false">
+    <div class="loading-inner">
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="loading-label" role="status" aria-live="polite">
+        Loading
       </div>
     </div>
-    <header class="container w-full bg-white flex justify-between align-center">
-      <div class="text-48 black font-heading">
-        <a href="index.html">ORIGINAE</a>
-      </div>
-      <div class="flex gap-24">
-        <a href="#services" class="text-20 bold flex align-center">SERVICES</a>
-        <a href="#team" class="text-20 bold flex align-center">TEAM</a>
-        <a
-          href="https://calendly.com/tracycbis/30min"
-          class="btn btn-black btn-header font-base text-24 bold mlh-24"
-          >Book a meeting</a
-        >
-      </div>
-    </header>
-    <main role="main">
-      <!-- HERO -->
-      <section class="section bg-black banner-section">
-        <div class="container relative banner">
-          <div class="text-effect relative">
-            <h1 class="font-heading text-400 white letter-sm m-0">ORIGINAE</h1>
-            <picture>
-              <source
-                media="(max-width: 479px)"
-                srcset="./image/cube_mobile.webp"
-              />
-              <img
-                src="./image/cube.webp"
-                class="absolute img-effect-banner"
-                alt=""
-                loading="lazy"
-                decoding="async"
-              />
-            </picture>
-            <span
-              class="font-heading text-400 white text-effect-banner letter-sm absolute"
-            >
-              ORIGINAE
-            </span>
-          </div>
-          <!-- Hero image -->
-
-          <p
-            class="white font-base text-32 w-40 text-justify mb-24 banner-description"
-          >
-            Important initiatives get stuck due to a lack of capacity. From "we
-            should do this" to "it's live". We assemble the team, manage the
-            work, and move your business forward immediately.
-          </p>
-          <a
-            href="https://calendly.com/tracycbis/30min"
-            class="btn btn-white btn-banner font-base text-32 bold banner-cta"
-            >Book a meeting</a
-          >
-          <div class="absolute sub-title-banner">
-            <p class="text-160 white font-heading mobile-s-d banner-slogan">
-              WE SOLVE IT <br />
-              FOR YOU.
-            </p>
-            <p
-              class="text-160 white font-heading mobile-s text-center banner-slogan"
-            >
-              WE SOLVE IT FOR YOU.
-            </p>
-          </div>
+  </div>
+  <header class="container w-full bg-white flex justify-between align-center">
+    <div class="text-48 black font-heading">
+      <a href="index.html">ORIGINAE</a>
+    </div>
+    <div class="flex gap-24">
+      <a href="#services" class="text-20 bold flex align-center">SERVICES</a>
+      <a href="#team" class="text-20 bold flex align-center">TEAM</a>
+      <a href="https://calendly.com/tracycbis/30min" class="btn btn-black btn-header font-base text-24 bold mlh-24">Book
+        a meeting</a>
+    </div>
+  </header>
+  <main role="main">
+    <!-- HERO -->
+    <section class="section bg-black banner-section">
+      <div class="container relative banner">
+        <div class="text-effect relative">
+          <h1 class="font-heading text-400 white letter-sm m-0">ORIGINAE</h1>
+          <picture>
+            <source media="(max-width: 479px)" srcset="./image/cube_mobile.webp" />
+            <img src="./image/cube.webp" class="absolute img-effect-banner" alt="" loading="lazy" decoding="async" />
+          </picture>
+          <span class="font-heading text-400 white text-effect-banner letter-sm absolute">
+            ORIGINAE
+          </span>
         </div>
-      </section>
-      <script>
-        (function () {
-          var OVERLAY_ID = "loading";
-          var banner = document.querySelector(".img-effect-banner");
-          var MAX_WAIT = 7000; // safety fallback in ms
-          var POLL_INTERVAL = 200; // ms when polling for overlay insertion
-          var POLL_MAX = 10; // number of polls (~2s)
-          var removed = false;
+        <!-- Hero image -->
 
-          function fadeRemove(el) {
-            if (!el || removed) return;
-            removed = true;
-            try {
-              el.setAttribute("aria-hidden", "true");
-              el.offsetHeight;
-              el.classList.add("is-hidden");
+        <p class="white font-base text-32 w-40 text-justify mb-24 banner-description">
+          Important initiatives get stuck due to a lack of capacity. From "we
+          should do this" to "it's live". We assemble the team, manage the
+          work, and move your business forward immediately.
+        </p>
+        <a href="https://calendly.com/tracycbis/30min"
+          class="btn btn-white btn-banner font-base text-32 bold banner-cta">Book a meeting</a>
+        <div class="absolute sub-title-banner">
+          <p class="text-160 white font-heading mobile-s-d banner-slogan">
+            WE SOLVE IT <br />
+            FOR YOU.
+          </p>
+          <p class="text-160 white font-heading mobile-s text-center banner-slogan">
+            WE SOLVE IT FOR YOU.
+          </p>
+        </div>
+      </div>
+    </section>
+    <script>
+      (function () {
+        var OVERLAY_ID = "loading";
+        var banner = document.querySelector(".img-effect-banner");
+        var MAX_WAIT = 7000; // safety fallback in ms
+        var POLL_INTERVAL = 200; // ms when polling for overlay insertion
+        var POLL_MAX = 10; // number of polls (~2s)
+        var removed = false;
 
-              var removedByTransition = false;
-              var onEnd = function (ev) {
-                if (ev && ev.target !== el) return;
-                removedByTransition = true;
-                cleanup();
-              };
+        function fadeRemove(el) {
+          if (!el || removed) return;
+          removed = true;
+          try {
+            el.setAttribute("aria-hidden", "true");
+            el.offsetHeight;
+            el.classList.add("is-hidden");
 
-              var cleanup = function () {
+            var removedByTransition = false;
+            var onEnd = function (ev) {
+              if (ev && ev.target !== el) return;
+              removedByTransition = true;
+              cleanup();
+            };
+
+            var cleanup = function () {
+              try {
+                el.removeEventListener("transitionend", onEnd);
+                // restore document scrolling now that loading overlay is gone
                 try {
-                  el.removeEventListener("transitionend", onEnd);
-                  // restore document scrolling now that loading overlay is gone
-                  try {
-                    document.documentElement.style.overflow = "";
-                  } catch (e) {}
-                  try {
-                    document.body.style.overflow = "";
-                  } catch (e) {}
-                  el.parentNode && el.parentNode.removeChild(el);
-                } catch (e) {}
-              };
+                  document.documentElement.style.overflow = "";
+                } catch (e) { }
+                try {
+                  document.body.style.overflow = "";
+                } catch (e) { }
+                el.parentNode && el.parentNode.removeChild(el);
+              } catch (e) { }
+            };
 
-              el.addEventListener("transitionend", onEnd);
-              // Fallback in case transitionend doesn't fire
-              setTimeout(function () {
-                if (!removedByTransition) cleanup();
-              }, 700);
-            } catch (e) {}
-          }
+            el.addEventListener("transitionend", onEnd);
+            // Fallback in case transitionend doesn't fire
+            setTimeout(function () {
+              if (!removedByTransition) cleanup();
+            }, 700);
+          } catch (e) { }
+        }
 
-          function tryRemoveOverlayNow() {
-            var o = document.getElementById(OVERLAY_ID);
-            if(o) { fadeRemove(o); return true; }
-            return false;
-          }
+        function tryRemoveOverlayNow() {
+          var o = document.getElementById(OVERLAY_ID);
+          if (o) { fadeRemove(o); return true; }
+          return false;
+        }
 
-          function waitForOverlayThenRemove() {
-            if (tryRemoveOverlayNow()) return;
-            var checks = 0;
-            var iv = setInterval(function () {
-              checks++;
-              if (tryRemoveOverlayNow() || checks >= POLL_MAX) {
-                clearInterval(iv);
-              }
-            }, POLL_INTERVAL);
-          }
-
-          // If banner exists, attach handlers as early as possible
-          if (banner) {
-            if (banner.complete) {
-              // banner already loaded; remove overlay as soon as it appears
-              waitForOverlayThenRemove();
-            } else {
-              banner.addEventListener("load", waitForOverlayThenRemove, {
-                once: true,
-              });
-              banner.addEventListener("error", waitForOverlayThenRemove, {
-                once: true,
-              });
+        function waitForOverlayThenRemove() {
+          if (tryRemoveOverlayNow()) return;
+          var checks = 0;
+          var iv = setInterval(function () {
+            checks++;
+            if (tryRemoveOverlayNow() || checks >= POLL_MAX) {
+              clearInterval(iv);
             }
+          }, POLL_INTERVAL);
+        }
+
+        // If banner exists, attach handlers as early as possible
+        if (banner) {
+          if (banner.complete) {
+            // banner already loaded; remove overlay as soon as it appears
+            waitForOverlayThenRemove();
           } else {
-            // Banner not present yet: ensure we attempt removal once DOM is interactive
-            document.addEventListener("readystatechange", function () {
-              if (
-                document.readyState === "interactive" ||
-                document.readyState === "complete"
-              )
-                waitForOverlayThenRemove();
+            banner.addEventListener("load", waitForOverlayThenRemove, {
+              once: true,
+            });
+            banner.addEventListener("error", waitForOverlayThenRemove, {
+              once: true,
             });
           }
+        } else {
+          // Banner not present yet: ensure we attempt removal once DOM is interactive
+          document.addEventListener("readystatechange", function () {
+            if (
+              document.readyState === "interactive" ||
+              document.readyState === "complete"
+            )
+              waitForOverlayThenRemove();
+          });
+        }
 
-          setTimeout(waitForOverlayThenRemove, MAX_WAIT);
-        })();
-      </script>
+        setTimeout(waitForOverlayThenRemove, MAX_WAIT);
+      })();
+    </script>
 
-      <!-- OUTCOME DRIVEN SERVICES -->
-      <section class="section section-m" id="services">
-        <div class="container">
-          <div class="flex outcome-service-group">
-            <div class="relative flex-1 outcome-service-title">
-              <h2 class="black font-heading text-188 title-service m-0 desktop">
-                OUR ANSWER:<br />OUTCOME<br />DRIVEN<br />SERVICES
-              </h2>
-              <h2 class="black font-heading text-188 title-service m-0 mobile">
-                OUR ANSWER:<br />
-                OUTCOME DRIVEN SERVICES
-              </h2>
-              <img
-                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                data-src="./image/image.webp"
-                alt="services image"
-                class="absolute img-effect-service"
-                loading="lazy"
-                decoding="async"
-              />
-              <span
-                class="text-effect-service black font-heading text-188 title-service desktop"
-              >
-                OUR ANSWER:<br />OUTCOME<br />DRIVEN<br />SERVICES
-              </span>
-              <span
-                class="text-effect-service black font-heading text-188 title-service mobile"
-              >
-                OUR ANSWER:<br />OUTCOME DRIVEN SERVICES
-              </span>
-            </div>
-            <div class="flex-1 group-service-1">
-              <div class="group-service-padding">
-                <p class="font-base bold text-36 mb-48 outcome-subtitle">
-                  WE LET YOU FOCUS ON YOUR BUSINESS,<br />
-                  WHILE WE HANDLE THE REST.<br />
-                  <br />
-                  WE ARE A SPECIALIZED MANAGED<br />
-                  SERVICES PROVIDER.
-                </p>
-
-                <div class="card-service-group">
-                  <div class="card-service">
-                    <p class="text-132 font-heading count">01</p>
-                    <div>
-                      <p class="text-32 font-base mb-8">
-                        <strong>OUTCOME-DRIVEN:</strong>
-                      </p>
-                      <p class="text-32 font-base m-0">
-                        DEFINED OBJECTIVES & SUCCESS METRICS
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card-service">
-                    <p class="text-132 font-heading count">02</p>
-                    <div>
-                      <p class="text-32 font-base mb-8">
-                        <strong>FULLY MANAGED:</strong>
-                      </p>
-                      <p class="text-32 font-base m-0">
-                        SWISS-BASED LEADERSHIP &amp; STRUCTURED DELIVERY
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card-service">
-                    <p class="text-132 font-heading count">03</p>
-                    <div>
-                      <p class="text-32 font-base mb-8">
-                        <strong>SPECIALIZED:</strong>
-                      </p>
-                      <p class="text-32 font-base m-0">
-                        DEGREE-EDUCATED PROFESSIONALS
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <!-- OUTCOME DRIVEN SERVICES -->
+    <section class="section section-m" id="services">
+      <div class="container">
+        <div class="flex outcome-service-group">
+          <div class="relative flex-1 outcome-service-title">
+            <h2 class="black font-heading text-188 title-service m-0 desktop">
+              OUR ANSWER:<br />OUTCOME<br />DRIVEN<br />SERVICES
+            </h2>
+            <h2 class="black font-heading text-188 title-service m-0 mobile">
+              OUR ANSWER:<br />
+              OUTCOME DRIVEN SERVICES
+            </h2>
+            <img
+              src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+              data-src="./image/image.webp" alt="services image" class="absolute img-effect-service" loading="lazy"
+              decoding="async" />
+            <span class="text-effect-service black font-heading text-188 title-service desktop">
+              OUR ANSWER:<br />OUTCOME<br />DRIVEN<br />SERVICES
+            </span>
+            <span class="text-effect-service black font-heading text-188 title-service mobile">
+              OUR ANSWER:<br />OUTCOME DRIVEN SERVICES
+            </span>
           </div>
-        </div>
-      </section>
-
-      <!-- MARKETING -->
-      <section
-        id="marketing"
-        class="section bg-black section-2-layout section-m"
-      >
-        <div class="container">
-          <div class="flex gap-wrap">
-            <div class="flex-4">
-              <h2 class="font-heading text-188 mb-24 white">MARKETING</h2>
-              <p
-                class="white font-base text-32 white bold text-left section-2-layout-p"
-              >
-                WE’RE NOT HERE TO BRAINSTORM ENDLESSLY; <br />
-                WE’RE HERE TO PICK A TARGET AND BUILD A <br />
-                SYSTEM THAT CREATES CONVERSION.
-              </p>
-            </div>
-            <div class="flex flex-6 wrap-content">
-              <div class="card-content bg-gray-light">
-                <p class="font-base text-24 bold">
-                  LAUNCH &amp; GO-TO-MARKET FOR <br />NEW PRODUCTS/MARKETS
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="font-base text-24 bold">
-                  BUILDING A REPEATABLE <br />DEMAND ENGINE
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="font-base text-24 bold">
-                  CONTENT &amp; BRAND<br />
-                  MESSAGING FOUNDATIONS
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="font-base text-24 bold">
-                  MARKETING OPERATIONS<br />
-                  &amp; AUTOMATIONS
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- OPERATIONS -->
-      <section
-        id="operations"
-        class="section reverse-layout section-2-layout section-m"
-      >
-        <div class="container">
-          <div class="flex gap-wrap">
-            <div class="flex flex-6 wrap-content">
-              <div class="card-content bg-gray-light">
-                <p class="font-base text-24 bold">
-                  PROCESS MAPPING &amp; SOPS <br />FOR KEY WORKFLOWS
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="font-base text-24 bold">
-                  REPORTING &amp; KPI DASHBOARDS<br />
-                  FOR LEADERSHIP
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="font-base text-24 bold">
-                  SETTING UP A REMOTE<br />
-                  OPERATIONS POD
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="font-base text-24 bold">
-                  SUPPORT / SUCCESS DESK<br />
-                  STRUCTURE AND RUN
-                </p>
-              </div>
-            </div>
-            <div class="flex-4">
-              <h2 class="font-heading text-188 text-right mb-24">OPERATIONS</h2>
-              <p class="font-base text-32 bold text-right section-2-layout-p">
-                THE BUSINESS IS GROWING BUT INTERNALLY
-                <br />THINGS FEEL MESSY – WE BRING ORDER AND <br />ELIMINATE THE
-                CHAOS.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- BUSINESS DEVELOPMENT -->
-      <section
-        id="business-development"
-        class="section bg-black section-2-layout section-m"
-      >
-        <div class="container">
-          <div class="flex gap-wrap">
-            <div class="flex-4">
-              <h2 class="font-heading text-124 white mb-24">
-                BUSINESS<br />DEVELOPMENT
-              </h2>
-              <p
-                class="font-base text-32 bold white text-left section-2-layout-p"
-              >
-                YOU NEED MORE CONVERSATIONS WITH THE <br />
-                RIGHT TARGETS, CONSISTENTLY. WE FOCUS ON <br />FILLING THE
-                PIPELINE AND CLOSING DEALS.
-              </p>
-            </div>
-            <div class="flex flex-6 wrap-content">
-              <div class="card-content bg-gray-light">
-                <p class="text-24 bold">
-                  OUTBOUND ENGINE: ICP, LISTS,<br />
-                  MESSAGING, CADENCES
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="text-24 bold">
-                  PARTNERSHIP &amp;<br />
-                  CHANNEL DEVELOPMENT
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="text-24 bold">
-                  PIPELINE BUILD AND<br />
-                  DEAL SUPPORT
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="text-24 bold">
-                  CRM MANAGEMENT AND <br />DEAL MOMENTUM
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PRODUCT & TECHNOLOGY -->
-      <section
-        id="product-technology"
-        class="section reverse-layout section-2-layout section-m"
-      >
-        <div class="container">
-          <div class="flex gap-wrap">
-            <div class="flex flex-6 wrap-content">
-              <div class="card-content bg-gray-light">
-                <p class="text-24 bold">
-                  AI &amp; AUTOMATION FOR KEY<br />
-                  WORKFLOWS
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="text-24 bold">
-                  DIGITAL PRODUCT / MVP BUILDS<br />
-                  (WEB/SAAS)
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="text-24 bold">
-                  SYSTEMS &amp; INTEGRATION: MAKING<br />
-                  TOOLS TALK TO EACH OTHER
-                </p>
-              </div>
-              <div class="card-content bg-gray-light">
-                <p class="text-24 bold">
-                  DEV SHOP FOR ANY CUSTOM<br />
-                  BUILDS AND SOLUTIONS
-                </p>
-              </div>
-            </div>
-            <div class="flex-4">
-              <h2 class="font-heading text-124 text-right mb-24">
-                PRODUCT &amp;<br />TECHNOLOGY
-              </h2>
-              <p class="font-base text-32 bold text-right section-2-layout-p">
-                AVOID THE NEVER-ENDING DEV RABBIT HOLE.<br />
-                WE SIT BETWEEN BUSINESS &amp; ENGINEERING TO <br />ENSURE WHAT
-                GETS BUILT MOVES THE NEEDLE.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CTA: Learn more -->
-      <section class="section bg-black section-break">
-        <div class="container">
-          <div class="flex break-flex">
-            <div class="flex-1">
-              <p class="font-base text-32 white mb-24 break-text">
-                Learn more about our managed services
+          <div class="flex-1 group-service-1">
+            <div class="group-service-padding">
+              <p class="font-base bold text-36 mb-48 outcome-subtitle">
+                WE LET YOU FOCUS ON YOUR BUSINESS,<br />
+                WHILE WE HANDLE THE REST.<br />
                 <br />
-                and speak to a member of our team:
-              </p>
-              <a
-                href="https://calendly.com/tracycbis/30min"
-                class="btn btn-white btn-break font-base text-32 bold break-cta"
-                >Book a meeting</a
-              >
-            </div>
-            <div class="flex-1 flex justify-center align-center">
-              <div class="relative line-2">
-                <!-- <span class="line-2"></span> -->
-                <p class="font-heading text-188 white">ORIGINAE</p>
-                <picture>
-                  <source
-                    media="(max-width: 479px)"
-                    data-srcset="./image/cube1_mobile.webp"
-                  />
-                  <img
-                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                    data-src="./image/cube1.webp"
-                    class="absolute img-effect-break"
-                    alt="logo"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
-                <span
-                  class="font-heading text-188 white absolute text-effect-break"
-                  >ORIGINAE</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SERVICE MODEL -->
-      <section class="section section-service-model">
-        <div class="container relative">
-          <div class="flex our-service-model-group">
-            <div class="flex-6">
-              <h2 class="font-heading text-132 w-120 mb-88">
-                OUR SERVICE MODEL:<br />SIMPLE &amp; ACCOUNTABLE
-              </h2>
-              <p class="font-base text-36 bold mb-88 our-service-model-text">
-                WE OFFER A MODULAR MODEL<br />
-                WHERE WE START SMALL, PROVE <br />
-                VALUE, AND THEN EXPAND.
+                WE ARE A SPECIALIZED MANAGED<br />
+                SERVICES PROVIDER.
               </p>
 
-              <div class="group-service-group">
-                <div class="group-service">
-                  <p class="font-base text-24">01</p>
-                  <p class="font-base text-24">
-                    <strong>KICK OFF:</strong> 30–45 minute scoping call: goals,
-                    constraints, timeline, success metrics.
-                  </p>
+              <div class="card-service-group">
+                <div class="card-service">
+                  <p class="text-132 font-heading count">01</p>
+                  <div>
+                    <p class="text-32 font-base mb-8">
+                      <strong>OUTCOME-DRIVEN:</strong>
+                    </p>
+                    <p class="text-32 font-base m-0">
+                      DEFINED OBJECTIVES & SUCCESS METRICS
+                    </p>
+                  </div>
                 </div>
-                <div class="group-service">
-                  <p class="font-base text-24">02</p>
-                  <p class="font-base text-24">
-                    <strong>ENGAGE:</strong> Swiss-based mandate lead &amp; team
-                    assigned; clear plan and milestones.
-                  </p>
+                <div class="card-service">
+                  <p class="text-132 font-heading count">02</p>
+                  <div>
+                    <p class="text-32 font-base mb-8">
+                      <strong>FULLY MANAGED:</strong>
+                    </p>
+                    <p class="text-32 font-base m-0">
+                      SWISS-BASED LEADERSHIP &amp; STRUCTURED DELIVERY
+                    </p>
+                  </div>
                 </div>
-                <div class="group-service">
-                  <p class="font-base text-24">03</p>
-                  <p class="font-base text-24">
-                    <strong>DELIVER:</strong> Execution with
-                    daily/weekly/bi-weekly check-ins, async updates, and visible
-                    progress.
-                  </p>
+                <div class="card-service">
+                  <p class="text-132 font-heading count">03</p>
+                  <div>
+                    <p class="text-32 font-base mb-8">
+                      <strong>SPECIALIZED:</strong>
+                    </p>
+                    <p class="text-32 font-base m-0">
+                      DEGREE-EDUCATED PROFESSIONALS
+                    </p>
+                  </div>
                 </div>
-                <div class="group-service">
-                  <p class="font-base text-24">04</p>
-                  <p class="font-base text-24">
-                    <strong>REVIEW &amp; EXTEND:</strong> End-of-phase 1 review,
-                    then extend, scale, or spin up the next mandate.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex-4 our-service-group">
-              <div class="our-service-item">
-                <div class="image-group">
-                  <img
-                    class="image-circle"
-                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                    data-src="./image/circle.webp"
-                    alt="circle 1"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <p class="font-base text-36 white text-center bold">
-                    FIXED-SCOPE
-                    <br />
-                    MANDATES
-                  </p>
-                </div>
-                <p class="font-base text-32">
-                  For clearly defined projects
-                  <br />
-                  with a clear end state. <br />
-                </p>
-              </div>
-              <div class="our-service-item">
-                <p class="font-base text-32 text-right">
-                  For recurring functions that
-                  <br />
-                  need consistent execution. <br />
-                </p>
-                <div class="image-group">
-                  <img
-                    class="image-circle"
-                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                    data-src="./image/circle.webp"
-                    alt="circle 1"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <p class="font-base text-36 white text-center bold">
-                    PILOT /<br />
-                    MVP FIRST
-                  </p>
-                </div>
-              </div>
-              <div class="our-service-item">
-                <div class="image-group">
-                  <img
-                    class="image-circle"
-                    src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                    data-src="./image/circle.webp"
-                    alt="circle 1"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <p class="font-base text-36 white text-center bold">
-                    ONGOING <br />
-                    MANAGED <br />
-                    MANDATES
-                  </p>
-                </div>
-                <p class="font-base text-32">
-                  Start with a smaller, time-bound
-                  <br />
-                  mandate to prove value. <br />
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- TEAM -->
-        <div class="container" id="team">
-          <div class="flex justify-between align-center">
-            <h2 class="font-heading text-220">OUR TEAM</h2>
-            <a
-              href="https://calendly.com/tracycbis/30min"
-              class="bold btn btn-black text-32 btn-banner"
-              >Book a meeting</a
-            >
-          </div>
-          <div class="flex our-team-group">
-            <div class="relative our-team">
-              <img
-                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                data-src="./image/person1.webp"
-                alt="Theo"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="badge font-base text-36 bold">THEO RAME</div>
-            </div>
-            <div class="relative our-team">
-              <img
-                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                data-src="./image/tracy.webp"
-                alt="Tracy"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="badge font-base text-36 bold">TRACY</div>
-            </div>
-            <div class="relative our-team">
-              <img
-                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                data-src="./image/our_team.webp"
-                alt="Our team"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="badge font-base text-36 bold">OUR TEAM</div>
-            </div>
-          </div>
-          <hr />
-        </div>
-      </section>
-
-      <!-- LET'S GET STARTED -->
-      <section class="section bg-black sectiton-getstarted">
-        <div class="container">
-          <div class="flex started-group-model">
-            <div class="flex-1 started-content">
-              <h2 class="font-heading text-188 white desktop">
-                LET'S GET<br />STARTED
-              </h2>
-              <h2
-                class="font-heading text-188 white text-center mobile started-title-mobile"
-              >
-                LET'S GET STARTED
-              </h2>
-              <a
-                href="https://calendly.com/tracycbis/30min"
-                class="btn btn-started btn-white btn-header font-base text-36 bold started-cta"
-                >BOOK A CALL NOW</a
-              >
-              <div class="flex started-group">
-                <div class="started-item">
-                  <p class="font-heading text-108 white count-started">01</p>
-                  <p class="font-base text-36 white">
-                    YOU SHARE WHERE YOU’RE STUCK OR <br />WHAT YOU WANT TO
-                    ACHIEVE
-                  </p>
-                </div>
-                <div class="started-item">
-                  <p class="font-heading text-108 white count-started">02</p>
-                  <p class="font-base text-36 white">
-                    WE PROPOSE A TAILORED MANDATE <br />WITH SCOPE, DURATION,
-                    &amp; OUTCOMES
-                  </p>
-                </div>
-                <div class="started-item">
-                  <p class="font-heading text-108 white count-started">03</p>
-                  <p class="font-base text-36 white">
-                    WE AGREE ON A START DATE <br />
-                    AND GET MOVING
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="flex-1 flex started-content">
-              <div class="img-effect-group">
-                <span class="line-white-vertical top"></span>
-                <img
-                  src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                  data-src="./image/image.webp"
-                  alt="3D spiral"
-                  class="img-effect-started"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <span class="line-white-vertical"></span>
-              </div>
-              <div class="card-started-group">
-                <div class="card-started">
-                  <p class="font-base text-32 white bold">OUTCOME-FIRST:</p>
-                  <p class="font-base text-32 white">
-                    Clear mandates with defined success metrics.
-                  </p>
-                </div>
-                <div class="card-started">
-                  <p class="font-base text-32 white bold">
-                    HIGH CALIBER TALENT:
-                  </p>
-                  <p class="font-base text-32 white">
-                    Degree-educated specialists matched to you problem
-                  </p>
-                </div>
-                <div class="card-started">
-                  <p class="font-base text-32 white bold">
-                    SWISS-BASED LEADERSHIP:
-                  </p>
-                  <p class="font-base text-32 white">
-                    Stable, accountable management and communication.
-                  </p>
-                </div>
-                <div class="card-started">
-                  <p class="font-base text-32 white bold">
-                    MODULAR ENGAGEMENT:
-                  </p>
-                  <p class="font-base text-32 white">
-                    Start with one mandate, expand as needed.
-                  </p>
-                </div>
-                <div class="card-started">
-                  <p class="font-base text-32 white bold">COST-EFFECTIVE:</p>
-                  <p class="font-base text-32 white">
-                    Get a fully managed team on a flexible month-to-month
-                    payment.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="section bg-gray-dark">
-      <div class="container desktop">
-        <div class="footer-group-desktop">
-          <div class="group-link-footer-slogan group-link-footer">
-            <p class="text-160 white font-heading footer-slogan">
-              WE SOLVE IT <br />FOR YOU.
-            </p>
-          </div>
-          <div class="group-link-footer">
-            <p class="font-base text-24 white bold mb-16">Services</p>
-            <div class="group-link-footer-child">
-              <a class="font-base text-24 white" href="#marketing">Marketing</a>
-              <a class="font-base text-24 white" href="#operations"
-                >Operations</a
-              >
-              <a class="font-base text-24 white" href="#business-development"
-                >Business Development</a
-              >
-              <a class="font-base text-24 white" href="#product-technology"
-                >Product &amp; Technology</a
-              >
-              <a class="font-base text-24 white" href="#team">Team</a>
-            </div>
-          </div>
-          <div class="group-link-footer">
-            <p class="font-base text-24 white bold mb-16">Contact us</p>
-            <div class="group-link-footer-child">
-              <a
-                class="font-base text-24 white"
-                target="_blank"
-                href="https://t.me/originaeadmin"
-                >@originaeadmin</a
-              >
-              <p class="font-base text-24 white">hello@originae.org</p>
-              <p class="font-base text-24 white">Zurich, Switzerland</p>
-              <p class="font-base text-24 white">2025 All rights reserved</p>
-            </div>
-          </div>
-          <div class="group-link-footer">
-            <div class="mb-16">
-              <p class="font-base text-24 white bold mb-16">Follow us</p>
-              <img
-                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                data-src="./image/linked.svg"
-                alt="link"
-                class="img-linked mr-16"
-                loading="lazy"
-                decoding="async"
-              />
-              <img
-                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                data-src="./image/whatsapp.svg"
-                alt="link"
-                class="img-linked"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div class="">
-              <p class="font-base text-24 white bold mb-16">Terms & Legal</p>
-              <div class="group-link-footer-child">
-                <a
-                  class="font-base text-24 white"
-                  target="_blank"
-                  href="policy.html#terms"
-                  >Terms of Service</a
-                >
-                <a
-                  class="font-base text-24 white"
-                  target="_blank"
-                  href="policy.html#privacy"
-                  >Privacy Policy</a
-                >
-                <a
-                  class="font-base text-24 white"
-                  target="_blank"
-                  href="policy.html#legal"
-                  >Legal Disclaimer</a
-                >
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="container mobile">
+    </section>
+
+    <!-- MARKETING -->
+    <section id="marketing" class="section bg-black section-2-layout section-m">
+      <div class="container">
+        <div class="flex gap-wrap">
+          <div class="flex-4">
+            <h2 class="font-heading text-188 mb-24 white">MARKETING</h2>
+            <p class="white font-base text-32 white bold text-left section-2-layout-p">
+              WE’RE NOT HERE TO BRAINSTORM ENDLESSLY; <br />
+              WE’RE HERE TO PICK A TARGET AND BUILD A <br />
+              SYSTEM THAT CREATES CONVERSION.
+            </p>
+          </div>
+          <div class="flex flex-6 wrap-content">
+            <div class="card-content bg-gray-light">
+              <p class="font-base text-24 bold">
+                LAUNCH &amp; GO-TO-MARKET FOR <br />NEW PRODUCTS/MARKETS
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="font-base text-24 bold">
+                BUILDING A REPEATABLE <br />DEMAND ENGINE
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="font-base text-24 bold">
+                CONTENT &amp; BRAND<br />
+                MESSAGING FOUNDATIONS
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="font-base text-24 bold">
+                MARKETING OPERATIONS<br />
+                &amp; AUTOMATIONS
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OPERATIONS -->
+    <section id="operations" class="section reverse-layout section-2-layout section-m">
+      <div class="container">
+        <div class="flex gap-wrap">
+          <div class="flex flex-6 wrap-content">
+            <div class="card-content bg-gray-light">
+              <p class="font-base text-24 bold">
+                PROCESS MAPPING &amp; SOPS <br />FOR KEY WORKFLOWS
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="font-base text-24 bold">
+                REPORTING &amp; KPI DASHBOARDS<br />
+                FOR LEADERSHIP
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="font-base text-24 bold">
+                SETTING UP A REMOTE<br />
+                OPERATIONS POD
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="font-base text-24 bold">
+                SUPPORT / SUCCESS DESK<br />
+                STRUCTURE AND RUN
+              </p>
+            </div>
+          </div>
+          <div class="flex-4">
+            <h2 class="font-heading text-188 text-right mb-24">OPERATIONS</h2>
+            <p class="font-base text-32 bold text-right section-2-layout-p">
+              THE BUSINESS IS GROWING BUT INTERNALLY
+              <br />THINGS FEEL MESSY – WE BRING ORDER AND <br />ELIMINATE THE
+              CHAOS.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUSINESS DEVELOPMENT -->
+    <section id="business-development" class="section bg-black section-2-layout section-m">
+      <div class="container">
+        <div class="flex gap-wrap">
+          <div class="flex-4">
+            <h2 class="font-heading text-124 white mb-24">
+              BUSINESS<br />DEVELOPMENT
+            </h2>
+            <p class="font-base text-32 bold white text-left section-2-layout-p">
+              YOU NEED MORE CONVERSATIONS WITH THE <br />
+              RIGHT TARGETS, CONSISTENTLY. WE FOCUS ON <br />FILLING THE
+              PIPELINE AND CLOSING DEALS.
+            </p>
+          </div>
+          <div class="flex flex-6 wrap-content">
+            <div class="card-content bg-gray-light">
+              <p class="text-24 bold">
+                OUTBOUND ENGINE: ICP, LISTS,<br />
+                MESSAGING, CADENCES
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="text-24 bold">
+                PARTNERSHIP &amp;<br />
+                CHANNEL DEVELOPMENT
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="text-24 bold">
+                PIPELINE BUILD AND<br />
+                DEAL SUPPORT
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="text-24 bold">
+                CRM MANAGEMENT AND <br />DEAL MOMENTUM
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT & TECHNOLOGY -->
+    <section id="product-technology" class="section reverse-layout section-2-layout section-m">
+      <div class="container">
+        <div class="flex gap-wrap">
+          <div class="flex flex-6 wrap-content">
+            <div class="card-content bg-gray-light">
+              <p class="text-24 bold">
+                AI &amp; AUTOMATION FOR KEY<br />
+                WORKFLOWS
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="text-24 bold">
+                DIGITAL PRODUCT / MVP BUILDS<br />
+                (WEB/SAAS)
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="text-24 bold">
+                SYSTEMS &amp; INTEGRATION: MAKING<br />
+                TOOLS TALK TO EACH OTHER
+              </p>
+            </div>
+            <div class="card-content bg-gray-light">
+              <p class="text-24 bold">
+                DEV SHOP FOR ANY CUSTOM<br />
+                BUILDS AND SOLUTIONS
+              </p>
+            </div>
+          </div>
+          <div class="flex-4">
+            <h2 class="font-heading text-124 text-right mb-24">
+              PRODUCT &amp;<br />TECHNOLOGY
+            </h2>
+            <p class="font-base text-32 bold text-right section-2-layout-p">
+              AVOID THE NEVER-ENDING DEV RABBIT HOLE.<br />
+              WE SIT BETWEEN BUSINESS &amp; ENGINEERING TO <br />ENSURE WHAT
+              GETS BUILT MOVES THE NEEDLE.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA: Learn more -->
+    <section class="section bg-black section-break">
+      <div class="container">
+        <div class="flex break-flex">
+          <div class="flex-1">
+            <p class="font-base text-32 white mb-24 break-text">
+              Learn more about our managed services
+              <br />
+              and speak to a member of our team:
+            </p>
+            <a href="https://calendly.com/tracycbis/30min"
+              class="btn btn-white btn-break font-base text-32 bold break-cta">Book a meeting</a>
+          </div>
+          <div class="flex-1 flex justify-center align-center">
+            <div class="relative line-2">
+              <!-- <span class="line-2"></span> -->
+              <p class="font-heading text-188 white">ORIGINAE</p>
+              <picture>
+                <source media="(max-width: 479px)" data-srcset="./image/cube1_mobile.webp" />
+                <img
+                  src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+                  data-src="./image/cube1.webp" class="absolute img-effect-break" alt="logo" loading="lazy"
+                  decoding="async" />
+              </picture>
+              <span class="font-heading text-188 white absolute text-effect-break">ORIGINAE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICE MODEL -->
+    <section class="section section-service-model">
+      <div class="container relative">
+        <div class="flex our-service-model-group">
+          <div class="flex-6">
+            <h2 class="font-heading text-132 w-120 mb-88">
+              OUR SERVICE MODEL:<br />SIMPLE &amp; ACCOUNTABLE
+            </h2>
+            <p class="font-base text-36 bold mb-88 our-service-model-text">
+              WE OFFER A MODULAR MODEL<br />
+              WHERE WE START SMALL, PROVE <br />
+              VALUE, AND THEN EXPAND.
+            </p>
+
+            <div class="group-service-group">
+              <div class="group-service">
+                <p class="font-base text-24">01</p>
+                <p class="font-base text-24">
+                  <strong>KICK OFF:</strong> 30–45 minute scoping call: goals,
+                  constraints, timeline, success metrics.
+                </p>
+              </div>
+              <div class="group-service">
+                <p class="font-base text-24">02</p>
+                <p class="font-base text-24">
+                  <strong>ENGAGE:</strong> Swiss-based mandate lead &amp; team
+                  assigned; clear plan and milestones.
+                </p>
+              </div>
+              <div class="group-service">
+                <p class="font-base text-24">03</p>
+                <p class="font-base text-24">
+                  <strong>DELIVER:</strong> Execution with
+                  daily/weekly/bi-weekly check-ins, async updates, and visible
+                  progress.
+                </p>
+              </div>
+              <div class="group-service">
+                <p class="font-base text-24">04</p>
+                <p class="font-base text-24">
+                  <strong>REVIEW &amp; EXTEND:</strong> End-of-phase 1 review,
+                  then extend, scale, or spin up the next mandate.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex-4 our-service-group">
+            <div class="our-service-item">
+              <div class="image-group">
+                <img class="image-circle"
+                  src="./image/circle.webp" alt="circle 1" loading="lazy" decoding="async" />
+                <p class="font-base text-36 white text-center bold">
+                  FIXED-SCOPE
+                  <br />
+                  MANDATES
+                </p>
+              </div>
+              <p class="font-base text-32">
+                For clearly defined projects
+                <br />
+                with a clear end state. <br />
+              </p>
+            </div>
+            <div class="our-service-item">
+              <p class="font-base text-32 text-right">
+                For recurring functions that
+                <br />
+                need consistent execution. <br />
+              </p>
+              <div class="image-group">
+                <img class="image-circle"
+                  src="./image/circle.webp" alt="circle 1" loading="lazy" decoding="async" />
+                <p class="font-base text-36 white text-center bold">
+                  PILOT /<br />
+                  MVP FIRST
+                </p>
+              </div>
+            </div>
+            <div class="our-service-item">
+              <div class="image-group">
+                <img class="image-circle"
+                  src="./image/circle.webp" alt="circle 1" loading="lazy" decoding="async" />
+                <p class="font-base text-36 white text-center bold">
+                  ONGOING <br />
+                  MANAGED <br />
+                  MANDATES
+                </p>
+              </div>
+              <p class="font-base text-32">
+                Start with a smaller, time-bound
+                <br />
+                mandate to prove value. <br />
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TEAM -->
+      <div class="container" id="team">
+        <div class="flex justify-between align-center">
+          <h2 class="font-heading text-220">OUR TEAM</h2>
+          <a href="https://calendly.com/tracycbis/30min" class="bold btn btn-black text-32 btn-banner">Book a
+            meeting</a>
+        </div>
+        <div class="flex our-team-group">
+          <div class="relative our-team">
+            <img
+              src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+              data-src="./image/person1.webp" alt="Theo" loading="lazy" decoding="async" />
+            <div class="badge font-base text-36 bold">THEO RAME</div>
+          </div>
+          <div class="relative our-team">
+            <img
+              src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+              data-src="./image/tracy.webp" alt="Tracy" loading="lazy" decoding="async" />
+            <div class="badge font-base text-36 bold">TRACY</div>
+          </div>
+          <div class="relative our-team">
+            <img
+              src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+              data-src="./image/our_team.webp" alt="Our team" loading="lazy" decoding="async" />
+            <div class="badge font-base text-36 bold">OUR TEAM</div>
+          </div>
+        </div>
+        <hr />
+      </div>
+    </section>
+
+    <!-- LET'S GET STARTED -->
+    <section class="section bg-black sectiton-getstarted">
+      <div class="container">
+        <div class="flex started-group-model">
+          <div class="flex-1 started-content">
+            <h2 class="font-heading text-188 white desktop">
+              LET'S GET<br />STARTED
+            </h2>
+            <h2 class="font-heading text-188 white text-center mobile started-title-mobile">
+              LET'S GET STARTED
+            </h2>
+            <a href="https://calendly.com/tracycbis/30min"
+              class="btn btn-started btn-white btn-header font-base text-36 bold started-cta">BOOK A CALL NOW</a>
+            <div class="flex started-group">
+              <div class="started-item">
+                <p class="font-heading text-108 white count-started">01</p>
+                <p class="font-base text-36 white">
+                  YOU SHARE WHERE YOU’RE STUCK OR <br />WHAT YOU WANT TO
+                  ACHIEVE
+                </p>
+              </div>
+              <div class="started-item">
+                <p class="font-heading text-108 white count-started">02</p>
+                <p class="font-base text-36 white">
+                  WE PROPOSE A TAILORED MANDATE <br />WITH SCOPE, DURATION,
+                  &amp; OUTCOMES
+                </p>
+              </div>
+              <div class="started-item">
+                <p class="font-heading text-108 white count-started">03</p>
+                <p class="font-base text-36 white">
+                  WE AGREE ON A START DATE <br />
+                  AND GET MOVING
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="flex-1 flex started-content">
+            <div class="img-effect-group">
+              <span class="line-white-vertical top"></span>
+              <img
+                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+                data-src="./image/image.webp" alt="3D spiral" class="img-effect-started" loading="lazy"
+                decoding="async" />
+              <span class="line-white-vertical"></span>
+            </div>
+            <div class="card-started-group">
+              <div class="card-started">
+                <p class="font-base text-32 white bold">OUTCOME-FIRST:</p>
+                <p class="font-base text-32 white">
+                  Clear mandates with defined success metrics.
+                </p>
+              </div>
+              <div class="card-started">
+                <p class="font-base text-32 white bold">
+                  HIGH CALIBER TALENT:
+                </p>
+                <p class="font-base text-32 white">
+                  Degree-educated specialists matched to you problem
+                </p>
+              </div>
+              <div class="card-started">
+                <p class="font-base text-32 white bold">
+                  SWISS-BASED LEADERSHIP:
+                </p>
+                <p class="font-base text-32 white">
+                  Stable, accountable management and communication.
+                </p>
+              </div>
+              <div class="card-started">
+                <p class="font-base text-32 white bold">
+                  MODULAR ENGAGEMENT:
+                </p>
+                <p class="font-base text-32 white">
+                  Start with one mandate, expand as needed.
+                </p>
+              </div>
+              <div class="card-started">
+                <p class="font-base text-32 white bold">COST-EFFECTIVE:</p>
+                <p class="font-base text-32 white">
+                  Get a fully managed team on a flexible month-to-month
+                  payment.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="section bg-gray-dark">
+    <div class="container desktop">
+      <div class="footer-group-desktop">
         <div class="group-link-footer-slogan group-link-footer">
-          <p
-            class="text-160 white font-heading footer-slogan text-center mb-24"
-          >
+          <p class="text-160 white font-heading footer-slogan">
             WE SOLVE IT <br />FOR YOU.
           </p>
         </div>
-        <div class="footer-group-mobile mb-24">
-          <div class="group-link-footer">
-            <p class="font-base text-24 white bold mb-16">Services</p>
-            <div class="group-link-footer-child">
-              <a class="font-base text-24 white" href="#marketing">Marketing</a>
-              <a class="font-base text-24 white" href="#operations"
-                >Operations</a
-              >
-              <a class="font-base text-24 white" href="#business-development"
-                >Business Development</a
-              >
-              <a class="font-base text-24 white" href="#product-technology"
-                >Product &amp; Technology</a
-              >
-              <a class="font-base text-24 white" href="#team">Team</a>
-            </div>
-          </div>
-          <div class="group-link-footer">
-            <div class="mb-16">
-              <p class="font-base text-24 white bold mb-16">Contact us</p>
-              <div class="group-link-footer-child">
-                <a
-                  class="font-base text-24 white"
-                  target="_blank"
-                  href="https://t.me/originaeadmin"
-                  >@originaeadmin</a
-                >
-                <p class="font-base text-24 white">hello@originae.org</p>
-              </div>
-            </div>
-            <div class="">
-              <p class="font-base text-24 white bold mb-16">Follow us</p>
-              <img
-                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                data-src="./image/linked.svg"
-                alt="link"
-                class="img-linked mr-16"
-                loading="lazy"
-                decoding="async"
-              />
-              <img
-                src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
-                data-src="./image/whatsapp.svg"
-                alt="link"
-                class="img-linked"
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
+        <div class="group-link-footer">
+          <p class="font-base text-24 white bold mb-16">Services</p>
+          <div class="group-link-footer-child">
+            <a class="font-base text-24 white" href="#marketing">Marketing</a>
+            <a class="font-base text-24 white" href="#operations">Operations</a>
+            <a class="font-base text-24 white" href="#business-development">Business Development</a>
+            <a class="font-base text-24 white" href="#product-technology">Product &amp; Technology</a>
+            <a class="font-base text-24 white" href="#team">Team</a>
           </div>
         </div>
-        <div class="footer-group-mobile mb-24">
-          <div class="group-link-footer">
-            <p class="font-base text-24 white bold mb-16">Terms & Legal</p>
-            <div class="group-link-footer-child">
-              <a
-                class="font-base text-24 white"
-                target="_blank"
-                href="policy.html#terms"
-                >Terms of Service</a
-              >
-              <a
-                class="font-base text-24 white"
-                target="_blank"
-                href="policy.html#privacy"
-                >Privacy Policy</a
-              >
-              <a class="font-base text-24 white">Legal Disclaimer</a>
-            </div>
-          </div>
-          <div class="group-link-footer address-mobile">
-            <p class="font-base text-24 white mb-8">Zurich, Switzerland</p>
+        <div class="group-link-footer">
+          <p class="font-base text-24 white bold mb-16">Contact us</p>
+          <div class="group-link-footer-child">
+            <a class="font-base text-24 white" target="_blank" href="https://t.me/originaeadmin">@originaeadmin</a>
+            <p class="font-base text-24 white">hello@originae.org</p>
+            <p class="font-base text-24 white">Zurich, Switzerland</p>
             <p class="font-base text-24 white">2025 All rights reserved</p>
           </div>
         </div>
+        <div class="group-link-footer">
+          <div class="mb-16">
+            <p class="font-base text-24 white bold mb-16">Follow us</p>
+            <img
+              src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+              data-src="./image/linked.svg" alt="link" class="img-linked mr-16" loading="lazy" decoding="async" />
+            <img
+              src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+              data-src="./image/whatsapp.svg" alt="link" class="img-linked" loading="lazy" decoding="async" />
+          </div>
+          <div class="">
+            <p class="font-base text-24 white bold mb-16">Terms & Legal</p>
+            <div class="group-link-footer-child">
+              <a class="font-base text-24 white" target="_blank" href="policy.html#terms">Terms of Service</a>
+              <a class="font-base text-24 white" target="_blank" href="policy.html#privacy">Privacy Policy</a>
+              <!-- <a class="font-base text-24 white" target="_blank" href="policy.html#legal">Legal Disclaimer</a> -->
+            </div>
+          </div>
+        </div>
       </div>
-    </footer>
-    <script src="scripts/lazy-after-banner.js" defer></script>
-  </body>
+    </div>
+    <div class="container mobile">
+      <div class="group-link-footer-slogan group-link-footer">
+        <p class="text-160 white font-heading footer-slogan text-center mb-24">
+          WE SOLVE IT <br />FOR YOU.
+        </p>
+      </div>
+      <div class="footer-group-mobile mb-24">
+        <div class="group-link-footer">
+          <p class="font-base text-24 white bold mb-16">Services</p>
+          <div class="group-link-footer-child">
+            <a class="font-base text-24 white" href="#marketing">Marketing</a>
+            <a class="font-base text-24 white" href="#operations">Operations</a>
+            <a class="font-base text-24 white" href="#business-development">Business Development</a>
+            <a class="font-base text-24 white" href="#product-technology">Product &amp; Technology</a>
+            <a class="font-base text-24 white" href="#team">Team</a>
+          </div>
+        </div>
+        <div class="group-link-footer">
+          <div class="mb-16">
+            <p class="font-base text-24 white bold mb-16">Contact us</p>
+            <div class="group-link-footer-child">
+              <a class="font-base text-24 white" target="_blank" href="https://t.me/originaeadmin">@originaeadmin</a>
+              <p class="font-base text-24 white">hello@originae.org</p>
+            </div>
+          </div>
+          <div class="">
+            <p class="font-base text-24 white bold mb-16">Follow us</p>
+            <img
+              src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+              data-src="./image/linked.svg" alt="link" class="img-linked mr-16" loading="lazy" decoding="async" />
+            <img
+              src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%3E%3C/svg%3E"
+              data-src="./image/whatsapp.svg" alt="link" class="img-linked" loading="lazy" decoding="async" />
+          </div>
+        </div>
+      </div>
+      <div class="footer-group-mobile mb-24">
+        <div class="group-link-footer">
+          <p class="font-base text-24 white bold mb-16">Terms & Legal</p>
+          <div class="group-link-footer-child">
+            <a class="font-base text-24 white" target="_blank" href="policy.html#terms">Terms of Service</a>
+            <a class="font-base text-24 white" target="_blank" href="policy.html#privacy">Privacy Policy</a>
+            <!-- <a class="font-base text-24 white">Legal Disclaimer</a> -->
+          </div>
+        </div>
+        <div class="group-link-footer address-mobile">
+          <p class="font-base text-24 white mb-8">Zurich, Switzerland</p>
+          <p class="font-base text-24 white">2025 All rights reserved</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script src="scripts/lazy-after-banner.js" defer></script>
+</body>
+
 </html>
